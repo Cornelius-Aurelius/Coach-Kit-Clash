@@ -344,6 +344,41 @@
 
 
 
+
+    .scenario.auto-grey-mistake {
+      filter: grayscale(1) contrast(1.35);
+    }
+
+    .scenario.auto-grey-mistake::before {
+      content: "MISTAKE REVIEW: GREY SCALE SHOWS THE CONTRAST PROBLEM";
+      position: absolute;
+      left: 50%;
+      top: 36px;
+      transform: translateX(-50%);
+      z-index: 9;
+      width: max-content;
+      max-width: calc(100% - 18px);
+      text-align: center;
+      border-radius: 999px;
+      background: rgba(255, 95, 126, .98);
+      color: #111827;
+      border: 2px solid rgba(255,255,255,.92);
+      padding: 6px 10px;
+      font-size: .62rem;
+      font-weight: 1000;
+      letter-spacing: .04em;
+      box-shadow: 0 10px 24px rgba(0,0,0,.26);
+      pointer-events: none;
+    }
+
+    .review-line {
+      display: block;
+      margin-top: 7px;
+      padding-top: 7px;
+      border-top: 1px solid rgba(255,255,255,.18);
+    }
+
+
     .clash-highlight {
       position: relative;
       outline: 5px solid rgba(255, 95, 126, .98) !important;
@@ -932,6 +967,13 @@
         font-size: .7rem;
       }
 
+
+      .scenario.auto-grey-mistake::before {
+        top: 25px;
+        font-size: .43rem;
+        padding: 4px 6px;
+      }
+
       .scenario.grey-mode::after {
         font-size: .45rem;
         padding: 4px 6px;
@@ -1168,7 +1210,7 @@
 
       <div class="rules">
         <div class="rule">1. Look for strong light-vs-dark contrast.</div>
-        <div class="rule">2. If players must rely on stripes/details, it is a clash risk.</div>
+        <div class="rule">2. Shirts are the main cue. Back/side views must be clear at a glance.</div>
         <div class="rule">3. Tap Safe Kit or Kit Clash Risk. Correct = +10, wrong = -10, grey scale help correct = +5.</div>
       </div>
 
@@ -1183,7 +1225,7 @@
   <div class="overlay hidden" id="learnOverlay">
     <div class="modal">
       <h2>Coach Learning</h2>
-      <p>Use this rule: the safest colour-blind kit decision is usually one team light and one team dark. Grey scale help removes colour names and shows light-vs-dark contrast. If two kits look similar in grey scale, they are likely to be confusing in real football conditions. Using it reduces a correct reward to 5 points.</p>
+      <p>Use this rule: the safest colour-blind kit decision is usually one team light and one team dark. Grey scale help removes colour names and shows light-vs-dark contrast. If two kits look similar in grey scale, they are likely to be confusing in real football conditions. The shirt is the main cue because players often only see a back view or side view at a glance.</p>
 
       <div class="learn-grid">
         <div class="learn-box">
@@ -1195,12 +1237,12 @@
           <p>Red/green/orange/brown, blue/purple/navy/black, yellow/orange, white/pastels and dark-vs-dark kits can all become confusing at speed or distance.</p>
         </div>
         <div class="learn-box">
-          <h3>Goalkeepers and referee</h3>
-          <p>Goalkeepers and referees must be separate from both teams and each other. Green goalkeeper kits can also disappear against the grass background.</p>
+          <h3>Why grey scale helps</h3>
+          <p>Grey scale shows contrast without colour names. If two kits become similar in grey scale, they may be hard to separate during fast play, shade, floodlights, rain or bright sun.</p>
         </div>
         <div class="learn-box">
           <h3>Why it affects play</h3>
-          <p>Colour-blind players may need extra time to identify teammates. That can cause hesitation, wrong passes, missed runs, poor positioning and lower confidence.</p>
+          <p>Colour-blind players may need extra time to identify teammates. At speed, they often see only the back or side of a shirt, moving in and out of shade, so weak contrast can cause hesitation, wrong passes and lost confidence.</p>
         </div>
       </div>
 
@@ -1813,6 +1855,14 @@
       ].join(". ") + ".";
     }
 
+    function contrastReviewText() {
+      return "The grey scale review removes the colour names and shows the contrast. If the kits look close in grey scale, the player may struggle when the speed of play increases, when players move in and out of shade, under floodlights, in rain, in bright sun, or from distance.";
+    }
+
+    function shirtCueText() {
+      return "In football, the shirt is the main colour information. Players often only get a quick back view or side view of a shirt before passing, so socks, badges, stripes and small details are too slow to rely on.";
+    }
+
     function conditionExplanation() {
       if (!currentScenario) return "";
 
@@ -1822,45 +1872,57 @@
       const bothDark = environmentRisk(h, a) && ["black","navy","darkPurple","darkGreen","darkRed","maroon","darkGrey"].includes(h.shirtName);
       const bothLight = environmentRisk(h, a) && ["white","lightGrey","grey","paleBlue","palePink","cream","yellow","sky"].includes(h.shirtName);
 
-      const greyText = "Grey scale helps because it removes colour names and shows light-vs-dark contrast. If two kits look similar in grey scale, they are likely to be confusing in real football conditions.";
+      const base = contrastReviewText() + " " + shirtCueText();
 
       if (currentAnswer === "risk") {
         if (currentClashTarget === "homeGk") {
-          return "The circled clash is the home goalkeeper kit. A goalkeeper must stand apart from both teams, the referee and the grass. " + greyText;
+          return "The circled clash is the home goalkeeper kit. The goalkeeper shirt is too close to another key shirt colour on the pitch. " + base;
         }
 
         if (currentClashTarget === "awayGk") {
-          return "The circled clash is the away goalkeeper kit. A goalkeeper must stand apart from both teams, the referee and the grass. " + greyText;
+          return "The circled clash is the away goalkeeper kit. The goalkeeper shirt is too close to another key shirt colour on the pitch. " + base;
         }
 
         if (currentClashTarget === "referee") {
-          return "The circled clash is the referee kit. The referee should never blend into a team or goalkeeper. " + greyText;
+          return "The circled clash is the referee kit. The referee shirt is too close to a team or goalkeeper shirt, so the official can visually blend into play. " + base;
         }
 
         if (dominantShirtRisk(h, a)) {
-          return "The circled clash is between the two outfield teams. This can look safe close up because shorts, socks, stripes or numbers are different, but football decisions happen at speed. The dominant shirt colours are the first thing players notice. " + greyText;
+          return "The circled clash is between the two outfield teams. The dominant shirt colours are too close for a fast football decision. Even if shorts, socks, numbers or stripes are different, the player first sees the main shirt colour. " + base;
         }
 
         if (bothDark) {
-          return "The circled clash is a dark-vs-dark match condition risk. It can look safe on a bright screen, but on game day dark kits can merge under floodlights, shade, rain, distance or movement. " + greyText;
+          return "The circled clash is a dark-vs-dark contrast problem. Dark shirts can merge when players move through shade, floodlights, rain or distance. " + base;
         }
 
         if (bothLight) {
-          return "The circled clash is a light-vs-light match condition risk. Light kits can wash out in bright sun, pale lighting or distance. " + greyText;
+          return "The circled clash is a light-vs-light contrast problem. Light shirts can wash out in bright sun, pale lighting or distance. " + base;
         }
 
-        return "The circled area shows where the kit decision fails the glance test. Match speed changes the problem: players scan while running, under pressure and from distance. " + greyText;
+        return "The circled clash fails the glance test. It may look okay when still, but at match speed the player has to recognise shirts while running, scanning and under pressure. " + base;
       }
 
-      return "This is safe because the dominant shirts have strong light-vs-dark contrast, and the goalkeepers and referee are separated from both teams. " + greyText;
+      return "This is safe because the dominant shirts have strong light-vs-dark contrast, and the goalkeepers and referee are separated from both teams. " + contrastReviewText();
     }
 
     function wrongExplanation(answer) {
       const chosenText = answer === "safe" ? "SAFE KIT" : "KIT CLASH RISK";
       const correctText = currentAnswer === "safe" ? "SAFE KIT" : "KIT CLASH RISK";
 
+      if (currentAnswer === "risk" && answer === "safe") {
+        return "❌ WRONG — You chose " + chosenText + ", but this is a KIT CLASH RISK. -10 points. " +
+          exactColourReport() +
+          " <span class='review-line'>Why it was a clash: " + currentReason + " " + conditionExplanation() + "</span>";
+      }
+
+      if (currentAnswer === "safe" && answer === "risk") {
+        return "❌ WRONG — You chose " + chosenText + ", but this was SAFE KIT. -10 points. " +
+          exactColourReport() +
+          " <span class='review-line'>Why it was safe: the dominant shirts have clear contrast and the goalkeeper/referee kits are separated. You marked it as a clash when the shirts passed the quick glance test.</span>";
+      }
+
       return "❌ WRONG — You chose " + chosenText + ". Correct answer: " + correctText + ". -10 points. " +
-        exactColourReport() + " Why you are wrong: " + currentReason + " " + conditionExplanation();
+        exactColourReport() + " <span class='review-line'>Why: " + currentReason + " " + conditionExplanation() + "</span>";
     }
 
     function correctExplanation(pointsWon) {
@@ -1887,7 +1949,11 @@
     }
 
     function setFeedback(text, type = "", explain = false) {
-      feedbackEl.textContent = text;
+      if (explain) {
+        feedbackEl.innerHTML = text;
+      } else {
+        feedbackEl.textContent = text;
+      }
       feedbackEl.className = "feedback";
       if (type) feedbackEl.classList.add(type);
       if (explain) feedbackEl.classList.add("explain");
@@ -1906,7 +1972,7 @@
       safeBtn.classList.remove("button-correct", "button-wrong");
       riskBtn.classList.remove("button-correct", "button-wrong");
       pitchEl.classList.remove("correct-screen", "wrong-screen");
-      scenarioEl.classList.remove("grey-mode");
+      scenarioEl.classList.remove("grey-mode", "auto-grey-mistake");
       greyHelpBtn.classList.remove("used");
       greyHelpBtn.textContent = "◐ Grey Scale Help";
       greyHelpUsed = false;
@@ -2111,15 +2177,21 @@
         correctBtn.classList.add("button-correct");
         pitchEl.classList.add("wrong-screen");
         greyHelpBtn.disabled = true;
+
+        // Mistake review: automatically switch to grey scale and circle the clash.
+        scenarioEl.classList.add("auto-grey-mistake");
+        scenarioEl.classList.add("grey-mode");
+        greyHelpBtn.classList.add("used");
+        greyHelpBtn.textContent = "◐ Grey Scale Review";
         showClashArea();
 
         setFeedback(wrongExplanation(answer), "bad", true);
         showPop("❌ -10", "bad");
 
         if (lives <= 0) {
-          setTimeout(endGame, 5200);
+          setTimeout(endGame, 7200);
         } else {
-          setTimeout(makeRound, 5200);
+          setTimeout(makeRound, 7200);
         }
       }
     }
