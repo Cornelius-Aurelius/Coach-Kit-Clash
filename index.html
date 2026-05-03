@@ -152,8 +152,8 @@
     main {
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0,1fr) 300px;
-      gap: 8px;
+      grid-template-columns: minmax(0,1fr) 380px;
+      gap: 12px;
       align-items: stretch;
     }
 
@@ -244,6 +244,7 @@
     }
 
     .team-card {
+      position: relative;
       min-width: 0;
       border-radius: 24px;
       background: rgba(255,255,255,.92);
@@ -307,6 +308,7 @@
     }
 
     .extra-card {
+      position: relative;
       border-radius: 18px;
       background: rgba(0,0,0,.28);
       border: 1px solid rgba(255,255,255,.14);
@@ -341,6 +343,59 @@
     }
 
 
+
+    .clash-highlight {
+      position: relative;
+      outline: 5px solid rgba(255, 95, 126, .98) !important;
+      outline-offset: 5px;
+      box-shadow:
+        0 0 0 8px rgba(255, 95, 126, .28),
+        0 0 38px rgba(255, 95, 126, .62) !important;
+      animation: clashRing 1.05s ease-in-out infinite;
+    }
+
+    .safe-highlight {
+      position: relative;
+      outline: 5px solid rgba(53, 211, 154, .95) !important;
+      outline-offset: 5px;
+      box-shadow:
+        0 0 0 8px rgba(53, 211, 154, .22),
+        0 0 34px rgba(53, 211, 154, .48) !important;
+    }
+
+    @keyframes clashRing {
+      0%, 100% { outline-offset: 4px; }
+      50% { outline-offset: 9px; }
+    }
+
+    .clash-label {
+      position: absolute;
+      left: 50%;
+      top: -18px;
+      transform: translateX(-50%);
+      z-index: 20;
+      background: rgba(255, 95, 126, .98);
+      color: #111827;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: .62rem;
+      font-weight: 1000;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      border: 2px solid rgba(255,255,255,.85);
+      pointer-events: none;
+    }
+
+    .grey-note {
+      display: block;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255,255,255,.18);
+      font-size: .9em;
+      opacity: .95;
+    }
+
+
     .help-row {
       position: relative;
       z-index: 3;
@@ -369,7 +424,7 @@
     }
 
     .scenario.grey-mode::after {
-      content: "GREY SCALE CONTRAST VIEW";
+      content: "GREY SCALE: CONTRAST HELP";
       position: absolute;
       top: 6px;
       right: 8px;
@@ -445,7 +500,7 @@
     .side {
       min-height: 0;
       display: grid;
-      grid-template-rows: auto minmax(0,1fr) auto;
+      grid-template-rows: auto auto minmax(120px, auto);
       gap: 8px;
     }
 
@@ -468,8 +523,8 @@
     .card p {
       margin: 7px 0 0;
       color: var(--muted);
-      font-size: .82rem;
-      line-height: 1.28;
+      font-size: .95rem;
+      line-height: 1.34;
       font-weight: 800;
     }
 
@@ -484,14 +539,14 @@
       background: rgba(0,0,0,.22);
       border: 1px solid rgba(255,255,255,.12);
       padding: 7px 9px;
-      font-size: .78rem;
+      font-size: .9rem;
       font-weight: 950;
       color: rgba(248,251,255,.9);
       line-height: 1.1;
     }
 
     .feedback {
-      min-height: 76px;
+      min-height: 110px;
       display: grid;
       place-items: center;
       text-align: center;
@@ -499,7 +554,7 @@
       border: 1px solid var(--line);
       background: rgba(255,255,255,.085);
       padding: 10px;
-      font-size: clamp(.82rem, 1.8vw, .98rem);
+      font-size: clamp(.92rem, 1.55vw, 1.05rem);
       font-weight: 1000;
       line-height: 1.25;
       overflow: hidden;
@@ -560,8 +615,8 @@
       justify-items: start;
       text-align: left;
       overflow-y: auto;
-      max-height: 150px;
-      font-size: clamp(.78rem, 1.65vw, .94rem);
+      max-height: 230px;
+      font-size: clamp(.9rem, 1.45vw, 1.02rem);
       line-height: 1.3;
       white-space: normal;
     }
@@ -921,8 +976,8 @@
       .feedback.explain {
         min-height: 72px;
         max-height: 96px;
-        font-size: .68rem;
-        line-height: 1.24;
+        font-size: .76rem;
+        line-height: 1.26;
       }
 
       .learn-grid {
@@ -1045,14 +1100,14 @@
 
         <div class="scenario">
           <div class="teams">
-            <div class="team-card">
+            <div class="team-card" id="homeTeamCard">
               <div class="team-name">Home Team</div>
               <div class="players" id="homePlayers"></div>
             </div>
 
             <div class="vs">VS</div>
 
-            <div class="team-card">
+            <div class="team-card" id="awayTeamCard">
               <div class="team-name">Away Team</div>
               <div class="players" id="awayPlayers"></div>
             </div>
@@ -1128,7 +1183,7 @@
   <div class="overlay hidden" id="learnOverlay">
     <div class="modal">
       <h2>Coach Learning</h2>
-      <p>Use this rule: the safest colour-blind kit decision is usually one team light and one team dark. Grey scale help removes colour so you can judge contrast, but using it reduces a correct reward to 5 points.</p>
+      <p>Use this rule: the safest colour-blind kit decision is usually one team light and one team dark. Grey scale help removes colour names and shows light-vs-dark contrast. If two kits look similar in grey scale, they are likely to be confusing in real football conditions. Using it reduces a correct reward to 5 points.</p>
 
       <div class="learn-grid">
         <div class="learn-box">
@@ -1194,6 +1249,8 @@
     const pitchEl = $("pitchEl");
     const homePlayers = $("homePlayers");
     const awayPlayers = $("awayPlayers");
+    const homeTeamCard = $("homeTeamCard");
+    const awayTeamCard = $("awayTeamCard");
     const extras = $("extras");
     const missionEl = $("missionEl");
     const coachText = $("coachText");
@@ -1220,6 +1277,7 @@
     let currentAnswer = "risk";
     let currentReason = "";
     let currentScenario = null;
+    let currentClashTarget = "none";
     let greyHelpUsed = false;
     let kitBank = [];
 
@@ -1614,6 +1672,7 @@
 
         return {
           answer: "safe",
+          clashTarget: "none",
           home,
           away,
           homeGk,
@@ -1689,6 +1748,7 @@
 
       return {
         answer: "risk",
+        clashTarget: type === "homeGk" ? "homeGk" : type === "awayGk" ? "awayGk" : type === "referee" ? "referee" : "teams",
         home,
         away,
         homeGk,
@@ -1762,23 +1822,37 @@
       const bothDark = environmentRisk(h, a) && ["black","navy","darkPurple","darkGreen","darkRed","maroon","darkGrey"].includes(h.shirtName);
       const bothLight = environmentRisk(h, a) && ["white","lightGrey","grey","paleBlue","palePink","cream","yellow","sky"].includes(h.shirtName);
 
+      const greyText = "Grey scale helps because it removes colour names and shows light-vs-dark contrast. If two kits look similar in grey scale, they are likely to be confusing in real football conditions.";
+
       if (currentAnswer === "risk") {
+        if (currentClashTarget === "homeGk") {
+          return "The circled clash is the home goalkeeper kit. A goalkeeper must stand apart from both teams, the referee and the grass. " + greyText;
+        }
+
+        if (currentClashTarget === "awayGk") {
+          return "The circled clash is the away goalkeeper kit. A goalkeeper must stand apart from both teams, the referee and the grass. " + greyText;
+        }
+
+        if (currentClashTarget === "referee") {
+          return "The circled clash is the referee kit. The referee should never blend into a team or goalkeeper. " + greyText;
+        }
+
         if (dominantShirtRisk(h, a)) {
-          return "This can look safe close up because shorts, socks, stripes or numbers are different, but football decisions happen at speed. The dominant shirt colours are the first thing players notice, and these shirts are too close for a reliable quick glance.";
+          return "The circled clash is between the two outfield teams. This can look safe close up because shorts, socks, stripes or numbers are different, but football decisions happen at speed. The dominant shirt colours are the first thing players notice. " + greyText;
         }
 
         if (bothDark) {
-          return "This can look safe on a bright screen, but on game day dark kits can merge under floodlights, shade, rain, distance or movement. If the player needs extra time to separate them, it is a clash risk.";
+          return "The circled clash is a dark-vs-dark match condition risk. It can look safe on a bright screen, but on game day dark kits can merge under floodlights, shade, rain, distance or movement. " + greyText;
         }
 
         if (bothLight) {
-          return "This can look safe on a screen, but light kits can wash out in bright sun, pale lighting or distance. If the contrast is weak in grey scale, it is a clash risk.";
+          return "The circled clash is a light-vs-light match condition risk. Light kits can wash out in bright sun, pale lighting or distance. " + greyText;
         }
 
-        return "This may look safe when standing still, but match speed changes the problem. Players scan quickly while running, under pressure and from distance. If they must study details, the kit has failed the glance test.";
+        return "The circled area shows where the kit decision fails the glance test. Match speed changes the problem: players scan while running, under pressure and from distance. " + greyText;
       }
 
-      return "This is safe because the dominant shirts have strong contrast, and the goalkeepers and referee are separated from both teams.";
+      return "This is safe because the dominant shirts have strong light-vs-dark contrast, and the goalkeepers and referee are separated from both teams. " + greyText;
     }
 
     function wrongExplanation(answer) {
@@ -1828,6 +1902,7 @@
     }
 
     function clearDecisionStyles() {
+      clearClashHighlights();
       safeBtn.classList.remove("button-correct", "button-wrong");
       riskBtn.classList.remove("button-correct", "button-wrong");
       pitchEl.classList.remove("correct-screen", "wrong-screen");
@@ -1879,9 +1954,16 @@
       container.innerHTML = numbers.map(n => `<div class="player-small">${kitSvg(kit, n)}</div>`).join("");
     }
 
+    function extraIdFromLabel(label) {
+      if (label === "Home GK") return "homeGkCard";
+      if (label === "Away GK") return "awayGkCard";
+      if (label === "Referee") return "refereeCard";
+      return "";
+    }
+
     function renderExtras(items) {
       extras.innerHTML = items.map(item => `
-        <div class="extra-card">
+        <div class="extra-card" id="${extraIdFromLabel(item.label)}">
           ${kitSvg(item.kit, item.number || "")}
           <div>
             <div class="extra-label">${item.label}</div>
@@ -1891,12 +1973,83 @@
       `).join("");
     }
 
+    function clearClashHighlights() {
+      document.querySelectorAll(".clash-highlight, .safe-highlight").forEach(el => {
+        el.classList.remove("clash-highlight", "safe-highlight");
+        const label = el.querySelector(".clash-label");
+        if (label) label.remove();
+      });
+    }
+
+    function addClashLabel(el, text) {
+      if (!el) return;
+      const old = el.querySelector(".clash-label");
+      if (old) old.remove();
+      const label = document.createElement("div");
+      label.className = "clash-label";
+      label.textContent = text;
+      el.appendChild(label);
+    }
+
+    function showClashArea() {
+      clearClashHighlights();
+
+      if (currentAnswer === "safe") {
+        [homeTeamCard, awayTeamCard, $("homeGkCard"), $("awayGkCard"), $("refereeCard")]
+          .filter(Boolean)
+          .forEach(el => el.classList.add("safe-highlight"));
+        return;
+      }
+
+      if (currentClashTarget === "homeGk") {
+        const el = $("homeGkCard");
+        if (el) {
+          el.classList.add("clash-highlight");
+          addClashLabel(el, "CLASH AREA");
+        }
+        awayTeamCard.classList.add("clash-highlight");
+        addClashLabel(awayTeamCard, "TOO CLOSE");
+        return;
+      }
+
+      if (currentClashTarget === "awayGk") {
+        const el = $("awayGkCard");
+        if (el) {
+          el.classList.add("clash-highlight");
+          addClashLabel(el, "CLASH AREA");
+        }
+        homeTeamCard.classList.add("clash-highlight");
+        addClashLabel(homeTeamCard, "TOO CLOSE");
+        return;
+      }
+
+      if (currentClashTarget === "referee") {
+        const el = $("refereeCard");
+        if (el) {
+          el.classList.add("clash-highlight");
+          addClashLabel(el, "CLASH AREA");
+        }
+        homeTeamCard.classList.add("clash-highlight");
+        awayTeamCard.classList.add("clash-highlight");
+        addClashLabel(homeTeamCard, "CHECK TEAM");
+        addClashLabel(awayTeamCard, "CHECK TEAM");
+        return;
+      }
+
+      // Default: outfield team clash.
+      homeTeamCard.classList.add("clash-highlight");
+      awayTeamCard.classList.add("clash-highlight");
+      addClashLabel(homeTeamCard, "CLASH AREA");
+      addClashLabel(awayTeamCard, "CLASH AREA");
+    }
+
     function makeRound() {
       clearDecisionStyles();
       locked = false;
 
       const scenario = makeScenario();
       currentScenario = scenario;
+      currentClashTarget = scenario.clashTarget || "none";
 
       currentAnswer = scenario.answer;
       currentReason = scenario.reason;
@@ -1942,6 +2095,7 @@
         selectedBtn.classList.add("button-correct");
         pitchEl.classList.add("correct-screen");
         greyHelpBtn.disabled = true;
+        if (currentAnswer === "risk") showClashArea();
         setFeedback(correctExplanation(pointsWon), "good", true);
         showPop(greyHelpUsed ? "✅ +5" : "✅ +10", "good");
 
@@ -1957,6 +2111,7 @@
         correctBtn.classList.add("button-correct");
         pitchEl.classList.add("wrong-screen");
         greyHelpBtn.disabled = true;
+        showClashArea();
 
         setFeedback(wrongExplanation(answer), "bad", true);
         showPop("❌ -10", "bad");
@@ -2038,7 +2193,7 @@
       greyHelpBtn.textContent = scenarioEl.classList.contains("grey-mode")
         ? "◐ Grey Scale On (+5 max)"
         : "◐ Grey Scale Help Used (+5 max)";
-      setFeedback("Grey scale help used. If you are correct, you now win +5 points instead of +10. Use it to judge contrast, not colour names.", "", false);
+      setFeedback("Grey scale help used. It removes colour and shows contrast. If two kits look similar in grey scale, they may confuse players at speed, in shade, under floodlights or in bright sun. Correct answer now gives +5 instead of +10.", "", false);
     }
 
     greyHelpBtn.addEventListener("click", toggleGreyHelp);
