@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Coach Kit Clash</title>
+  <style>
+    :root {
+      --bg: #07131f;
+      --pitch-dark: #0a3e29;
+      --pitch-light: #105a36;
+      --panel: rgba(255,255,255,.09);
+      --panel2: rgba(255,255,255,.15);
+      --line: rgba(255,255,255,.18);
+      --text: #f8fbff;
+      --muted: rgba(248,251,255,.72);
+      --good: #35d39a;
+      --bad: #ff5f7e;
+      --gold: #ffd166;
+      --shadow: 0 22px 70px rgba(0,0,0,.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(59,130,246,.28), transparent 34%),
+        radial-gradient(circle at 88% 92%, rgba(34,197,94,.20), transparent 38%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .game {
+      width: min(100%, 1180px);
+      min-height: calc(100dvh - 24px);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 12px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 4.2vw, 3.2rem);
+      line-height: .9;
+      letter-spacing: -.055em;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: clamp(.84rem, 2.2vw, 1.05rem);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      color: var(--text);
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 17px;
+      background: var(--panel2);
+      box-shadow: inset 0 0 0 1px var(--line);
+      font-weight: 1000;
+      cursor: pointer;
+      touch-action: manipulation;
+      user-select: none;
+      transition: transform .11s ease, background .11s ease, opacity .11s ease, box-shadow .11s ease;
+    }
+
+    button:active {
+      transform: scale(.96);
+    }
+
+    button:disabled {
+      opacity: .62;
+      cursor: not-allowed;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      box-shadow: 0 14px 32px rgba(37,99,235,.28);
+    }
+
+    .danger {
+      background: rgba(255,95,126,.22);
+    }
+
+    .scorebar {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      min-width: 0;
+      text-align: center;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 10px 8px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(1.12rem, 3.2vw, 1.65rem);
+      line-height: 1.08;
+      margin-top: 4px;
+    }
+
+    main {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 330px;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .pitch {
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+        repeating-linear-gradient(90deg, var(--pitch-dark) 0 78px, var(--pitch-light) 78px 156px);
+      background-size: 40px 40px, 40px 40px, auto;
+      min-height: 580px;
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+    }
+
+    .pitch::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 3px solid rgba(255,255,255,.18);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+
+    .pitch.correct-screen {
+      animation: correctPulse .72s ease both;
+    }
+
+    .pitch.wrong-screen {
+      animation: wrongPulse .72s ease both;
+    }
+
+    @keyframes correctPulse {
+      0% { box-shadow: var(--shadow); }
+      22% { box-shadow: 0 0 0 8px rgba(53,211,154,.7), 0 0 55px rgba(53,211,154,.45); }
+      100% { box-shadow: var(--shadow); }
+    }
+
+    @keyframes wrongPulse {
+      0% { transform: translateX(0); box-shadow: var(--shadow); }
+      12% { transform: translateX(-7px); }
+      24% { transform: translateX(7px); box-shadow: 0 0 0 8px rgba(255,95,126,.72), 0 0 55px rgba(255,95,126,.45); }
+      36% { transform: translateX(-5px); }
+      48% { transform: translateX(5px); }
+      100% { transform: translateX(0); box-shadow: var(--shadow); }
+    }
+
+    .mission {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 760px);
+      justify-self: center;
+      text-align: center;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(0,0,0,.40);
+      border: 1px solid rgba(255,255,255,.15);
+      font-size: clamp(.85rem, 2vw, 1.04rem);
+      font-weight: 1000;
+      backdrop-filter: blur(8px);
+    }
+
+    .scenario {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      gap: 16px;
+      align-content: center;
+      min-height: 0;
+    }
+
+    .match-title {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.32);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 9px 14px;
+      font-size: clamp(.9rem, 2.2vw, 1.1rem);
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .teams {
+      width: min(100%, 790px);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .team-card {
+      min-width: 0;
+      border-radius: 30px;
+      background: rgba(255,255,255,.92);
+      color: #101828;
+      border: 1px solid rgba(255,255,255,.42);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.28),
+        inset 0 0 0 2px rgba(0,0,0,.06);
+      padding: 15px;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .team-name {
+      font-size: clamp(.92rem, 2.4vw, 1.15rem);
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+
+    .players {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .player-small {
+      width: clamp(62px, 9vw, 94px);
+      filter: drop-shadow(0 13px 9px rgba(0,0,0,.18));
+    }
+
+    .player-small:nth-child(2) {
+      width: clamp(72px, 10vw, 108px);
+    }
+
+    .vs {
+      width: clamp(48px, 7vw, 70px);
+      height: clamp(48px, 7vw, 70px);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #101828;
+      color: white;
+      border: 3px solid rgba(255,255,255,.88);
+      font-size: clamp(.9rem, 2.5vw, 1.2rem);
+      font-weight: 1000;
+      box-shadow: 0 12px 25px rgba(0,0,0,.28);
+    }
+
+    .extras {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      width: min(100%, 620px);
+    }
+
+    .extra-card {
+      border-radius: 22px;
+      background: rgba(0,0,0,.28);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 11px;
+      display: grid;
+      grid-template-columns: 55px 1fr;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .extra-card svg {
+      width: 50px;
+      filter: drop-shadow(0 10px 8px rgba(0,0,0,.18));
+    }
+
+    .extra-label {
+      font-size: .78rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: rgba(248,251,255,.66);
+    }
+
+    .extra-name {
+      font-size: .92rem;
+      font-weight: 1000;
+      margin-top: 2px;
+      color: white;
+    }
+
+    .decision-row {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .decision-btn {
+      min-height: 78px;
+      font-size: clamp(1rem, 2.6vw, 1.34rem);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .decision-btn::after {
+      content: "";
+      position: absolute;
+      inset: auto 14px 10px 14px;
+      height: 5px;
+      border-radius: 999px;
+      opacity: .72;
+      background: currentColor;
+    }
+
+    .safe-btn {
+      background: rgba(53,211,154,.22);
+      border: 1px solid rgba(53,211,154,.35);
+    }
+
+    .risk-btn {
+      background: rgba(255,95,126,.22);
+      border: 1px solid rgba(255,95,126,.35);
+    }
+
+    .button-correct {
+      background: rgba(53,211,154,.88) !important;
+      color: #07131f !important;
+      box-shadow: 0 0 0 6px rgba(53,211,154,.42), 0 20px 45px rgba(53,211,154,.28) !important;
+      transform: scale(1.03);
+    }
+
+    .button-wrong {
+      background: rgba(255,95,126,.88) !important;
+      color: #07131f !important;
+      box-shadow: 0 0 0 6px rgba(255,95,126,.42), 0 20px 45px rgba(255,95,126,.28) !important;
+      transform: scale(.98);
+    }
+
+    .side {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.085);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: clamp(1.08rem, 2.6vw, 1.35rem);
+      letter-spacing: -.025em;
+    }
+
+    .card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.36;
+      font-weight: 800;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .check {
+      border-radius: 16px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 10px 12px;
+      font-weight: 950;
+      color: rgba(248,251,255,.9);
+    }
+
+    .feedback {
+      min-height: 94px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.085);
+      padding: 14px;
+      font-size: clamp(.98rem, 2.3vw, 1.12rem);
+      font-weight: 1000;
+      line-height: 1.3;
+    }
+
+    .feedback.good {
+      background: rgba(53,211,154,.22);
+      border-color: rgba(53,211,154,.58);
+      color: #bcffe7;
+      box-shadow: 0 0 0 3px rgba(53,211,154,.16);
+    }
+
+    .feedback.bad {
+      background: rgba(255,95,126,.22);
+      border-color: rgba(255,95,126,.58);
+      color: #ffd0da;
+      box-shadow: 0 0 0 3px rgba(255,95,126,.16);
+    }
+
+    .pop {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      z-index: 9;
+      border-radius: 999px;
+      padding: 18px 24px;
+      background: rgba(0,0,0,.72);
+      border: 2px solid rgba(255,255,255,.24);
+      font-size: clamp(1.2rem, 4vw, 2.25rem);
+      font-weight: 1000;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      min-width: min(90%, 330px);
+    }
+
+    .pop.show {
+      animation: pop .85s ease both;
+    }
+
+    @keyframes pop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.78); }
+      15% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+      72% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(.96); }
+    }
+
+    .kit-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      overflow-y: auto;
+      background: rgba(7,19,31,.84);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal {
+      width: min(100%, 700px);
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: rgba(12,22,38,.97);
+      box-shadow: var(--shadow);
+      padding: clamp(20px, 5vw, 34px);
+      text-align: center;
+    }
+
+    .modal h2 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 4.2rem);
+      line-height: .9;
+      letter-spacing: -.07em;
+    }
+
+    .modal p {
+      max-width: 52ch;
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: clamp(.95rem, 2.8vw, 1.08rem);
+      font-weight: 820;
+      line-height: 1.45;
+    }
+
+    .rules {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0;
+      text-align: left;
+    }
+
+    .rule {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 12px 14px;
+      color: rgba(248,251,255,.92);
+      font-weight: 930;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .hub-link,
+    .hub-link-modal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(248,251,255,.90);
+      text-decoration: none;
+      font-weight: 1000;
+      letter-spacing: .04em;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 9px 14px;
+      min-height: 42px;
+    }
+
+    .hub-link:active,
+    .hub-link-modal:active {
+      transform: scale(.97);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      display: grid;
+      place-items: center;
+      gap: 6px;
+      text-align: center;
+      color: rgba(248,251,255,.55);
+      font-size: .77rem;
+      font-weight: 1000;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      padding: 2px 4px 4px;
+    }
+
+    footer .hub-link {
+      text-transform: none;
+      letter-spacing: .04em;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 940px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .pitch {
+        min-height: 560px;
+      }
+
+      .side {
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding: 10px;
+      }
+
+      .game {
+        min-height: calc(100dvh - 20px);
+        gap: 10px;
+      }
+
+      header {
+        align-items: flex-start;
+      }
+
+      .top-actions button {
+        min-height: 42px;
+        padding: 10px 12px;
+        border-radius: 15px;
+        font-size: .86rem;
+      }
+
+      .scorebar {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .pitch {
+        min-height: 540px;
+        border-radius: 24px;
+        padding: 14px;
+      }
+
+      .pitch::before {
+        inset: 10px;
+        border-radius: 20px;
+      }
+
+      .mission {
+        padding: 9px 12px;
+        font-size: .82rem;
+      }
+
+      .teams {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .vs {
+        width: 46px;
+        height: 46px;
+        justify-self: center;
+      }
+
+      .team-card {
+        border-radius: 22px;
+        padding: 12px;
+      }
+
+      .players {
+        gap: 4px;
+      }
+
+      .player-small {
+        width: 62px;
+      }
+
+      .player-small:nth-child(2) {
+        width: 74px;
+      }
+
+      .extras {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .extra-card {
+        grid-template-columns: 46px 1fr;
+        padding: 9px;
+      }
+
+      .extra-card svg {
+        width: 42px;
+      }
+
+      .decision-row {
+        grid-template-columns: 1fr;
+      }
+
+      .decision-btn {
+        min-height: 66px;
+        border-radius: 21px;
+      }
+
+      .card {
+        border-radius: 22px;
+        padding: 14px;
+      }
+
+      .check {
+        padding: 9px 10px;
+        font-size: .9rem;
+      }
+
+      .feedback {
+        min-height: 84px;
+      }
+
+      .modal {
+        padding: 20px;
+      }
+
+      .modal h2 {
+        font-size: clamp(2rem, 10vw, 3.2rem);
+      }
+
+      .modal p {
+        font-size: .98rem;
+        line-height: 1.35;
+      }
+
+      .rules {
+        margin: 14px 0;
+        gap: 8px;
+      }
+
+      .rule {
+        padding: 10px 12px;
+        border-radius: 16px;
+        font-size: .95rem;
+      }
+
+      #startBtn {
+        width: 100%;
+        min-height: 64px;
+        border-radius: 22px;
+        font-size: 1.14rem;
+      }
+
+      .hub-link,
+      .hub-link-modal {
+        width: min(100%, 350px);
+        min-height: 46px;
+        font-size: .84rem;
+      }
+    }
+
+    @media (max-height: 720px) and (orientation: landscape) {
+      body {
+        padding: 8px;
+      }
+
+      .game {
+        min-height: calc(100dvh - 16px);
+        gap: 8px;
+      }
+
+      .subtitle {
+        display: none;
+      }
+
+      .stat {
+        padding: 7px 8px;
+      }
+
+      main {
+        grid-template-columns: minmax(0,1fr) 300px;
+      }
+
+      .pitch {
+        min-height: 375px;
+      }
+
+      .team-card {
+        padding: 10px;
+      }
+
+      .player-small {
+        width: 55px;
+      }
+
+      .player-small:nth-child(2) {
+        width: 67px;
+      }
+
+      .extras {
+        display: none;
+      }
+
+      .decision-btn {
+        min-height: 58px;
+      }
+
+      .card p,
+      .check {
+        font-size: .84rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="game">
+    <header>
+      <div>
+        <h1>Coach Kit Clash</h1>
+        <p class="subtitle">100 kit combinations. Decide safe or clash risk.</p>
+      </div>
+
+      <div class="top-actions">
+        <button id="pauseBtn">Pause</button>
+        <button id="restartBtn" class="danger">Restart</button>
+      </div>
+    </header>
+
+    <section class="scorebar" aria-label="Score board">
+      <div class="stat"><span>Level</span><strong id="levelEl">1</strong></div>
+      <div class="stat"><span>Score</span><strong id="scoreEl">0</strong></div>
+      <div class="stat"><span>Streak</span><strong id="streakEl">0</strong></div>
+      <div class="stat"><span>Lives</span><strong id="livesEl">3</strong></div>
+      <div class="stat"><span>Best</span><strong id="bestEl">0</strong></div>
+    </section>
+
+    <main>
+      <section class="pitch" id="pitchEl" aria-label="Kit clash decision area">
+        <div class="mission" id="missionEl">Would this kit match be clear for every player?</div>
+
+        <div class="scenario">
+          <div class="match-title" id="matchTitle">Fixture check</div>
+
+          <div class="teams">
+            <div class="team-card">
+              <div class="team-name">Home Team</div>
+              <div class="players" id="homePlayers"></div>
+            </div>
+
+            <div class="vs">VS</div>
+
+            <div class="team-card">
+              <div class="team-name">Away Team</div>
+              <div class="players" id="awayPlayers"></div>
+            </div>
+          </div>
+
+          <div class="extras" id="extras"></div>
+        </div>
+
+        <div class="decision-row">
+          <button class="decision-btn safe-btn" id="safeBtn">SAFE KIT</button>
+          <button class="decision-btn risk-btn" id="riskBtn">KIT CLASH RISK</button>
+        </div>
+
+        <div class="pop" id="popEl">Correct</div>
+      </section>
+
+      <aside class="side">
+        <section class="card">
+          <h2>Coach check</h2>
+          <p id="coachText">Look at the whole kit, not just the shirt colour.</p>
+          <div class="checklist">
+            <div class="check">Shirts</div>
+            <div class="check">Shorts</div>
+            <div class="check">Socks</div>
+            <div class="check">Goalkeeper / referee</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Why it matters</h2>
+          <p>A kit that looks different to one person can still be confusing for a colour-blind player, especially at speed or distance.</p>
+          <div class="checklist">
+            <div class="check">Prevent wrong passes</div>
+            <div class="check">Protect confidence</div>
+            <div class="check">Fix problems before kick-off</div>
+          </div>
+        </section>
+
+        <div class="feedback" id="feedbackEl">Press Start Game</div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>MADE BY CORNELIUS AURELIUS</div>
+      <a class="hub-link" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
+    </footer>
+  </div>
+
+  <div class="overlay" id="startOverlay">
+    <div class="modal">
+      <h2>Coach Kit Clash</h2>
+      <p>You are the coach before kick-off. There are 100 possible kit combinations. Decide if the fixture is safe or a colour-blind kit clash risk.</p>
+
+      <div class="rules">
+        <div class="rule">1. Compare both teams.</div>
+        <div class="rule">2. Check shirts, shorts, socks, goalkeeper and referee.</div>
+        <div class="rule">3. Tap Safe Kit or Kit Clash Risk.</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="primary" id="startBtn">Start Game</button>
+        <a class="hub-link-modal" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="pauseOverlay">
+    <div class="modal">
+      <h2>Paused</h2>
+      <p>Think like a coach: can every player clearly separate the teams at match speed?</p>
+
+      <div class="modal-actions">
+        <button class="primary" id="resumeBtn">Resume</button>
+        <button class="danger" id="pauseRestartBtn">Restart</button>
+        <a class="hub-link-modal" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="gameOverOverlay">
+    <div class="modal">
+      <h2>Game Over</h2>
+      <p id="finalText">Score: 0</p>
+
+      <div class="modal-actions">
+        <button class="primary" id="playAgainBtn">Play Again</button>
+        <a class="hub-link-modal" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    const levelEl = $("levelEl");
+    const scoreEl = $("scoreEl");
+    const streakEl = $("streakEl");
+    const livesEl = $("livesEl");
+    const bestEl = $("bestEl");
+
+    const pitchEl = $("pitchEl");
+    const homePlayers = $("homePlayers");
+    const awayPlayers = $("awayPlayers");
+    const extras = $("extras");
+    const matchTitle = $("matchTitle");
+    const missionEl = $("missionEl");
+    const coachText = $("coachText");
+    const feedbackEl = $("feedbackEl");
+    const popEl = $("popEl");
+    const safeBtn = $("safeBtn");
+    const riskBtn = $("riskBtn");
+
+    const startOverlay = $("startOverlay");
+    const pauseOverlay = $("pauseOverlay");
+    const gameOverOverlay = $("gameOverOverlay");
+    const finalText = $("finalText");
+
+    let level = 1;
+    let score = 0;
+    let streak = 0;
+    let lives = 3;
+    let best = Number(localStorage.getItem("coachKitClashBest100") || 0);
+    let running = false;
+    let locked = false;
+    let currentAnswer = "risk";
+    let currentReason = "";
+    let kitBank = [];
+
+    bestEl.textContent = best;
+
+    const colours = [
+      { name: "red", hex: "#dc2626", family: "redGreen" },
+      { name: "green", hex: "#16a34a", family: "redGreen" },
+      { name: "blue", hex: "#2563eb", family: "bluePurple" },
+      { name: "purple", hex: "#7c3aed", family: "bluePurple" },
+      { name: "yellow", hex: "#facc15", family: "bright" },
+      { name: "orange", hex: "#f97316", family: "bright" },
+      { name: "white", hex: "#f8fafc", family: "light" },
+      { name: "grey", hex: "#94a3b8", family: "light" },
+      { name: "sky", hex: "#7dd3fc", family: "light" },
+      { name: "black", hex: "#111827", family: "dark" },
+      { name: "navy", hex: "#172554", family: "dark" },
+      { name: "maroon", hex: "#7f1d1d", family: "dark" },
+      { name: "pink", hex: "#db2777", family: "redGreen" },
+      { name: "teal", hex: "#0d9488", family: "redGreen" }
+    ];
+
+    const colourByName = Object.fromEntries(colours.map(c => [c.name, c]));
+    const shorts = ["white", "black", "navy", "grey"];
+    const socks = ["white", "black", "red", "green", "blue", "yellow", "navy"];
+    const stripes = ["white", "black", "yellow", "blue", "red"];
+    const patterns = ["centre", "double", "hoop", "sash", "plain"];
+
+    function pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function uniqueKey(kit) {
+      return [kit.shirtName, kit.shortName, kit.sockName, kit.stripeName, kit.pattern].join("|");
+    }
+
+    function buildKitBank() {
+      const bank = [];
+      const used = new Set();
+
+      for (const shirt of colours) {
+        for (const shortName of shorts) {
+          for (const sockName of socks) {
+            for (const stripeName of stripes) {
+              for (const pattern of patterns) {
+                if (bank.length >= 100) return bank;
+
+                if (stripeName === shirt.name && pattern !== "plain") continue;
+
+                const kit = {
+                  shirtName: shirt.name,
+                  shirt: shirt.hex,
+                  sleeve: shirt.hex,
+                  shirtFamily: shirt.family,
+                  shortName,
+                  shorts: colourByName[shortName].hex,
+                  sockName,
+                  socks: colourByName[sockName].hex,
+                  stripeName,
+                  stripe: colourByName[stripeName].hex,
+                  pattern
+                };
+
+                const key = uniqueKey(kit);
+                if (!used.has(key)) {
+                  used.add(key);
+                  bank.push(kit);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return bank;
+    }
+
+    function colourDistanceFamily(a, b) {
+      if (a.shirtFamily === b.shirtFamily) return "sameRiskFamily";
+      if ((a.shirtFamily === "light" && b.shirtFamily === "light") || (a.shirtFamily === "dark" && b.shirtFamily === "dark")) return "toneRisk";
+      return "different";
+    }
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function findRiskKit(home, type) {
+      let candidates = kitBank.filter(k => uniqueKey(k) !== uniqueKey(home));
+
+      if (type === "sameShirt") {
+        candidates = candidates.filter(k => k.shirtName === home.shirtName);
+      } else if (type === "redGreenBluePurple") {
+        candidates = candidates.filter(k => k.shirtFamily === home.shirtFamily && k.shirtName !== home.shirtName);
+      } else if (type === "lightDark") {
+        candidates = candidates.filter(k => k.shirtFamily === home.shirtFamily && (k.shirtFamily === "light" || k.shirtFamily === "dark"));
+      } else if (type === "shortsSocks") {
+        candidates = candidates.filter(k => k.shortName === home.shortName || k.sockName === home.sockName);
+      } else {
+        candidates = candidates.filter(k => colourDistanceFamily(home, k) !== "different" || k.shortName === home.shortName);
+      }
+
+      return candidates.length ? pick(candidates) : pick(kitBank.filter(k => uniqueKey(k) !== uniqueKey(home)));
+    }
+
+    function findSafeKit(home) {
+      const candidates = kitBank.filter(k => {
+        if (uniqueKey(k) === uniqueKey(home)) return false;
+        if (colourDistanceFamily(home, k) !== "different") return false;
+        if (k.shortName === home.shortName && k.sockName === home.sockName) return false;
+        if (k.shirtName === home.shirtName) return false;
+        return true;
+      });
+
+      return candidates.length ? pick(candidates) : pick(kitBank.filter(k => uniqueKey(k) !== uniqueKey(home)));
+    }
+
+    function makeScenario() {
+      const home = pick(kitBank);
+      const wantRisk = Math.random() < (level < 3 ? 0.62 : 0.55);
+      const extrasOn = level >= 6 && Math.random() < 0.45;
+
+      if (!wantRisk) {
+        const away = findSafeKit(home);
+        const extraItems = extrasOn && Math.random() < 0.5
+          ? [{ label: "Referee", name: "Clear colour", kit: findSafeKit(away) }]
+          : [];
+
+        return {
+          answer: "safe",
+          title: "Fixture check",
+          home,
+          away,
+          extras: extraItems,
+          reason: "The full kits are clearly separated by shirt, shorts and socks."
+        };
+      }
+
+      const riskTypes = level < 3
+        ? ["sameShirt", "redGreenBluePurple"]
+        : level < 6
+          ? ["sameShirt", "redGreenBluePurple", "lightDark", "shortsSocks"]
+          : ["sameShirt", "redGreenBluePurple", "lightDark", "shortsSocks", "keeper", "referee"];
+
+      const type = pick(riskTypes);
+      let away = findRiskKit(home, type);
+      let extraItems = [];
+      let reason = "The kits are too visually close. This is a colour-blind kit clash risk.";
+
+      if (type === "sameShirt") {
+        reason = "The shirt colour is too similar. Players may not separate the teams quickly.";
+      } else if (type === "redGreenBluePurple") {
+        reason = "These shirt colours sit in a common confusion area. Coaches should treat this as a clash risk.";
+      } else if (type === "lightDark") {
+        reason = "The kits have a similar light/dark tone. At speed or distance, they can blend together.";
+      } else if (type === "shortsSocks") {
+        reason = "Shorts or socks are too similar. Lower-body cues matter when players are moving.";
+      } else if (type === "keeper") {
+        away = findSafeKit(home);
+        extraItems = [{ label: "Goalkeeper", name: "Kit too close", kit: away }];
+        reason = "The goalkeeper kit is too close to the outfield team. That can cause wrong passes.";
+      } else if (type === "referee") {
+        away = findSafeKit(home);
+        extraItems = [{ label: "Referee", name: "Blends in", kit: home }];
+        reason = "The referee kit is too close to one team. Officials should not blend into play.";
+      }
+
+      return {
+        answer: "risk",
+        title: type === "keeper" ? "Goalkeeper colour risk" : type === "referee" ? "Referee colour risk" : "Kit clash check",
+        home,
+        away,
+        extras: extraItems,
+        reason
+      };
+    }
+
+    function updateStats() {
+      levelEl.textContent = level;
+      scoreEl.textContent = score;
+      streakEl.textContent = streak;
+      livesEl.textContent = lives;
+      bestEl.textContent = best;
+    }
+
+    function updateBest() {
+      if (score > best) {
+        best = score;
+        localStorage.setItem("coachKitClashBest100", String(best));
+      }
+    }
+
+    function setFeedback(text, type = "") {
+      feedbackEl.textContent = text;
+      feedbackEl.className = "feedback";
+      if (type) feedbackEl.classList.add(type);
+    }
+
+    function showPop(text, type) {
+      popEl.textContent = text;
+      popEl.style.color = type === "good" ? "#bcffe7" : "#ffd0da";
+      popEl.classList.remove("show");
+      void popEl.offsetWidth;
+      popEl.classList.add("show");
+    }
+
+    function clearDecisionStyles() {
+      safeBtn.classList.remove("button-correct", "button-wrong");
+      riskBtn.classList.remove("button-correct", "button-wrong");
+      pitchEl.classList.remove("correct-screen", "wrong-screen");
+      safeBtn.disabled = false;
+      riskBtn.disabled = false;
+    }
+
+    function kitPatternSvg(kit) {
+      if (kit.pattern === "plain") return "";
+      if (kit.pattern === "centre") {
+        return `<rect x="53" y="35" width="14" height="67" rx="5" fill="${kit.stripe}" opacity=".92"/>`;
+      }
+      if (kit.pattern === "double") {
+        return `<rect x="44" y="35" width="9" height="66" rx="4" fill="${kit.stripe}" opacity=".92"/>
+                <rect x="67" y="35" width="9" height="66" rx="4" fill="${kit.stripe}" opacity=".92"/>`;
+      }
+      if (kit.pattern === "hoop") {
+        return `<rect x="31" y="54" width="58" height="13" rx="4" fill="${kit.stripe}" opacity=".92"/>
+                <rect x="30" y="81" width="60" height="13" rx="4" fill="${kit.stripe}" opacity=".92"/>`;
+      }
+      if (kit.pattern === "sash") {
+        return `<polygon points="35,35 48,35 89,94 89,105 77,105 31,42" fill="${kit.stripe}" opacity=".92"/>`;
+      }
+      return "";
+    }
+
+    function kitSvg(kit, number = "8") {
+      return `
+        <svg class="kit-svg" viewBox="0 0 120 150" aria-hidden="true">
+          <path d="M35 33 L22 42 Q12 48 10 60 L7 82 Q20 89 32 84 L35 65 Z" fill="${kit.sleeve}" stroke="#101828" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M85 33 L98 42 Q108 48 110 60 L113 82 Q100 89 88 84 L85 65 Z" fill="${kit.sleeve}" stroke="#101828" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M35 33 L48 25 L60 37 L72 25 L85 33 L91 100 Q60 111 29 100 Z" fill="${kit.shirt}" stroke="#101828" stroke-width="4" stroke-linejoin="round"/>
+          ${kitPatternSvg(kit)}
+          <path d="M47 27 Q60 42 73 27 L68 27 Q60 34 52 27 Z" fill="#f8fafc" stroke="#101828" stroke-width="2"/>
+          <text x="60" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="33" font-weight="900" fill="#ffffff" stroke="#101828" stroke-width="6" paint-order="stroke">${number}</text>
+          <rect x="35" y="100" width="50" height="20" rx="4" fill="${kit.shorts}" stroke="#101828" stroke-width="4"/>
+          <rect x="40" y="119" width="12" height="22" rx="4" fill="${kit.socks}" stroke="#101828" stroke-width="3"/>
+          <rect x="68" y="119" width="12" height="22" rx="4" fill="${kit.socks}" stroke="#101828" stroke-width="3"/>
+        </svg>
+      `;
+    }
+
+    function renderTeam(container, kit, numbers) {
+      container.innerHTML = numbers.map(n => `<div class="player-small">${kitSvg(kit, n)}</div>`).join("");
+    }
+
+    function renderExtras(items) {
+      if (!items || !items.length) {
+        extras.innerHTML = "";
+        extras.classList.add("hidden");
+        return;
+      }
+
+      extras.classList.remove("hidden");
+      extras.innerHTML = items.map(item => `
+        <div class="extra-card">
+          ${kitSvg(item.kit, "")}
+          <div>
+            <div class="extra-label">${item.label}</div>
+            <div class="extra-name">${item.name}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function makeRound() {
+      clearDecisionStyles();
+      locked = false;
+
+      const scenario = makeScenario();
+
+      currentAnswer = scenario.answer;
+      currentReason = scenario.reason;
+
+      matchTitle.textContent = scenario.title + " · 100-kit bank";
+      missionEl.textContent = level < 5
+        ? "Would this kit match be clear for every player?"
+        : "Check the full match picture before kick-off.";
+
+      coachText.textContent = level < 5
+        ? "Look at the whole kit, not just the shirt colour."
+        : "Now include goalkeeper, referee, distance and lighting in your decision.";
+
+      renderTeam(homePlayers, scenario.home, ["7", "8", "10"]);
+      renderTeam(awayPlayers, scenario.away, ["4", "9", "11"]);
+      renderExtras(scenario.extras || []);
+
+      updateStats();
+    }
+
+    function choose(answer) {
+      if (!running || locked) return;
+
+      locked = true;
+      safeBtn.disabled = true;
+      riskBtn.disabled = true;
+
+      const selectedBtn = answer === "safe" ? safeBtn : riskBtn;
+      const correctBtn = currentAnswer === "safe" ? safeBtn : riskBtn;
+
+      if (answer === currentAnswer) {
+        score += 10 + Math.min(streak, 10);
+        streak += 1;
+        level += 1;
+        updateBest();
+        updateStats();
+
+        selectedBtn.classList.add("button-correct");
+        pitchEl.classList.add("correct-screen");
+        setFeedback("✅ CORRECT — " + currentReason, "good");
+        showPop("✅ Correct", "good");
+
+        setTimeout(makeRound, 1350);
+      } else {
+        lives -= 1;
+        streak = 0;
+        updateBest();
+        updateStats();
+
+        selectedBtn.classList.add("button-wrong");
+        correctBtn.classList.add("button-correct");
+        pitchEl.classList.add("wrong-screen");
+
+        const correctText = currentAnswer === "safe" ? "SAFE KIT" : "KIT CLASH RISK";
+        setFeedback("❌ WRONG — Correct answer: " + correctText + ". " + currentReason, "bad");
+        showPop("❌ Wrong", "bad");
+
+        if (lives <= 0) {
+          setTimeout(endGame, 1550);
+        } else {
+          setTimeout(makeRound, 1550);
+        }
+      }
+    }
+
+    function startGame() {
+      level = 1;
+      score = 0;
+      streak = 0;
+      lives = 3;
+      running = true;
+      locked = false;
+
+      startOverlay.classList.add("hidden");
+      pauseOverlay.classList.add("hidden");
+      gameOverOverlay.classList.add("hidden");
+
+      setFeedback("Decide if the kits are safe or a clash risk.");
+      makeRound();
+    }
+
+    function pauseGame() {
+      if (!running) return;
+      running = false;
+      pauseOverlay.classList.remove("hidden");
+      setFeedback("Paused");
+    }
+
+    function resumeGame() {
+      if (gameOverOverlay.classList.contains("hidden")) {
+        running = true;
+        pauseOverlay.classList.add("hidden");
+        setFeedback("Decide if the kits are safe or a clash risk.");
+      }
+    }
+
+    function endGame() {
+      running = false;
+      updateBest();
+      updateStats();
+      finalText.textContent = "Score: " + score + " | Best: " + best;
+      gameOverOverlay.classList.remove("hidden");
+      setFeedback("Game Over");
+    }
+
+    $("startBtn").addEventListener("click", startGame);
+    $("playAgainBtn").addEventListener("click", startGame);
+    $("restartBtn").addEventListener("click", startGame);
+    $("pauseRestartBtn").addEventListener("click", startGame);
+    $("pauseBtn").addEventListener("click", pauseGame);
+    $("resumeBtn").addEventListener("click", resumeGame);
+
+    safeBtn.addEventListener("click", () => choose("safe"));
+    riskBtn.addEventListener("click", () => choose("risk"));
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        if (running) pauseGame();
+        else if (!pauseOverlay.classList.contains("hidden")) resumeGame();
+      }
+
+      if (e.key === "1" || e.key.toLowerCase() === "s") choose("safe");
+      if (e.key === "2" || e.key.toLowerCase() === "r") choose("risk");
+    });
+
+    kitBank = buildKitBank();
+
+    const previewHome = kitBank[0];
+    const previewAway = findRiskKit(previewHome, "redGreenBluePurple");
+    renderTeam(homePlayers, previewHome, ["7", "8", "10"]);
+    renderTeam(awayPlayers, previewAway, ["4", "9", "11"]);
+    renderExtras([]);
+    updateStats();
+  </script>
+</body>
+</html>
