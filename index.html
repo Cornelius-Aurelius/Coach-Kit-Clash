@@ -16,8 +16,7 @@
       --muted: rgba(248,251,255,.72);
       --good: #35d39a;
       --bad: #ff5f7e;
-      --gold: #ffd166;
-      --shadow: 0 22px 70px rgba(0,0,0,.35);
+      --shadow: 0 18px 48px rgba(0,0,0,.34);
     }
 
     * {
@@ -28,55 +27,59 @@
     html,
     body {
       margin: 0;
-      min-height: 100%;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 10% 8%, rgba(59,130,246,.28), transparent 34%),
-        radial-gradient(circle at 88% 92%, rgba(34,197,94,.20), transparent 38%),
+        radial-gradient(circle at 10% 8%, rgba(59,130,246,.25), transparent 32%),
+        radial-gradient(circle at 88% 92%, rgba(34,197,94,.18), transparent 36%),
         var(--bg);
       color: var(--text);
-      overflow-x: hidden;
     }
 
     body {
       min-height: 100dvh;
       display: flex;
       justify-content: center;
-      padding: 12px;
+      padding: 10px;
     }
 
     .game {
       width: min(100%, 1180px);
-      min-height: calc(100dvh - 24px);
+      height: calc(100dvh - 20px);
       display: grid;
-      grid-template-rows: auto auto 1fr auto;
-      gap: 12px;
+      grid-template-rows: auto auto minmax(0,1fr) auto;
+      gap: 8px;
+      min-height: 0;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      gap: 12px;
+      gap: 10px;
+      min-height: 0;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(1.65rem, 4.2vw, 3.2rem);
-      line-height: .9;
+      font-size: clamp(1.35rem, 3.5vw, 2.55rem);
+      line-height: .92;
       letter-spacing: -.055em;
     }
 
     .subtitle {
-      margin: 8px 0 0;
+      margin: 5px 0 0;
       color: var(--muted);
       font-weight: 900;
-      font-size: clamp(.84rem, 2.2vw, 1.05rem);
+      font-size: clamp(.76rem, 1.7vw, .94rem);
+      line-height: 1.15;
     }
 
     .top-actions {
       display: flex;
-      gap: 8px;
+      gap: 7px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
@@ -85,9 +88,9 @@
       border: 0;
       font: inherit;
       color: var(--text);
-      min-height: 48px;
-      padding: 12px 16px;
-      border-radius: 17px;
+      min-height: 42px;
+      padding: 10px 13px;
+      border-radius: 15px;
       background: var(--panel2);
       box-shadow: inset 0 0 0 1px var(--line);
       font-weight: 1000;
@@ -108,7 +111,7 @@
 
     .primary {
       background: linear-gradient(135deg, #2563eb, #7c3aed);
-      box-shadow: 0 14px 32px rgba(37,99,235,.28);
+      box-shadow: 0 12px 26px rgba(37,99,235,.28);
     }
 
     .danger {
@@ -118,7 +121,7 @@
     .scorebar {
       display: grid;
       grid-template-columns: repeat(5, minmax(0,1fr));
-      gap: 8px;
+      gap: 7px;
     }
 
     .stat {
@@ -126,14 +129,14 @@
       text-align: center;
       border: 1px solid var(--line);
       background: var(--panel);
-      border-radius: 18px;
-      padding: 10px 8px;
+      border-radius: 16px;
+      padding: 7px 6px;
     }
 
     .stat span {
       display: block;
       color: var(--muted);
-      font-size: .72rem;
+      font-size: .62rem;
       font-weight: 1000;
       text-transform: uppercase;
       letter-spacing: .08em;
@@ -141,43 +144,43 @@
 
     .stat strong {
       display: block;
-      font-size: clamp(1.12rem, 3.2vw, 1.65rem);
-      line-height: 1.08;
-      margin-top: 4px;
+      font-size: clamp(.98rem, 2.6vw, 1.35rem);
+      line-height: 1;
+      margin-top: 3px;
     }
 
     main {
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0,1fr) 330px;
-      gap: 12px;
+      grid-template-columns: minmax(0,1fr) 300px;
+      gap: 8px;
       align-items: stretch;
     }
 
     .pitch {
       position: relative;
+      min-height: 0;
       overflow: hidden;
-      border-radius: 30px;
+      border-radius: 25px;
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       background:
         linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
         linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-        repeating-linear-gradient(90deg, var(--pitch-dark) 0 78px, var(--pitch-light) 78px 156px);
-      background-size: 40px 40px, 40px 40px, auto;
-      min-height: 580px;
-      padding: 18px;
+        repeating-linear-gradient(90deg, var(--pitch-dark) 0 74px, var(--pitch-light) 74px 148px);
+      background-size: 38px 38px, 38px 38px, auto;
+      padding: 12px;
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 12px;
+      grid-template-rows: auto minmax(0,1fr) auto;
+      gap: 8px;
     }
 
     .pitch::before {
       content: "";
       position: absolute;
-      inset: 16px;
-      border: 3px solid rgba(255,255,255,.18);
-      border-radius: 22px;
+      inset: 10px;
+      border: 2px solid rgba(255,255,255,.18);
+      border-radius: 20px;
       pointer-events: none;
     }
 
@@ -191,16 +194,16 @@
 
     @keyframes correctPulse {
       0% { box-shadow: var(--shadow); }
-      22% { box-shadow: 0 0 0 8px rgba(53,211,154,.7), 0 0 55px rgba(53,211,154,.45); }
+      22% { box-shadow: 0 0 0 7px rgba(53,211,154,.7), 0 0 46px rgba(53,211,154,.45); }
       100% { box-shadow: var(--shadow); }
     }
 
     @keyframes wrongPulse {
       0% { transform: translateX(0); box-shadow: var(--shadow); }
-      12% { transform: translateX(-7px); }
-      24% { transform: translateX(7px); box-shadow: 0 0 0 8px rgba(255,95,126,.72), 0 0 55px rgba(255,95,126,.45); }
-      36% { transform: translateX(-5px); }
-      48% { transform: translateX(5px); }
+      12% { transform: translateX(-6px); }
+      24% { transform: translateX(6px); box-shadow: 0 0 0 7px rgba(255,95,126,.72), 0 0 46px rgba(255,95,126,.45); }
+      36% { transform: translateX(-4px); }
+      48% { transform: translateX(4px); }
       100% { transform: translateX(0); box-shadow: var(--shadow); }
     }
 
@@ -211,151 +214,196 @@
       justify-self: center;
       text-align: center;
       border-radius: 999px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       background: rgba(0,0,0,.40);
       border: 1px solid rgba(255,255,255,.15);
-      font-size: clamp(.85rem, 2vw, 1.04rem);
+      font-size: clamp(.76rem, 1.8vw, .94rem);
       font-weight: 1000;
       backdrop-filter: blur(8px);
+      line-height: 1.1;
     }
 
     .scenario {
       position: relative;
       z-index: 3;
       display: grid;
-      place-items: center;
-      gap: 16px;
-      align-content: center;
+      grid-template-rows: minmax(0,1fr) auto;
+      gap: 8px;
       min-height: 0;
-    }
-
-    .match-title {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.32);
-      border: 1px solid rgba(255,255,255,.14);
-      padding: 9px 14px;
-      font-size: clamp(.9rem, 2.2vw, 1.1rem);
-      font-weight: 1000;
-      text-align: center;
+      align-content: center;
     }
 
     .teams {
-      width: min(100%, 790px);
+      width: min(100%, 780px);
+      justify-self: center;
+      min-height: 0;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      gap: 16px;
+      gap: 10px;
       align-items: center;
     }
 
     .team-card {
       min-width: 0;
-      border-radius: 30px;
+      border-radius: 24px;
       background: rgba(255,255,255,.92);
       color: #101828;
       border: 1px solid rgba(255,255,255,.42);
       box-shadow:
-        0 20px 50px rgba(0,0,0,.28),
+        0 16px 36px rgba(0,0,0,.24),
         inset 0 0 0 2px rgba(0,0,0,.06);
-      padding: 15px;
+      padding: 11px;
       display: grid;
-      gap: 10px;
+      gap: 7px;
       justify-items: center;
     }
 
     .team-name {
-      font-size: clamp(.92rem, 2.4vw, 1.15rem);
+      font-size: clamp(.72rem, 1.7vw, .95rem);
       font-weight: 1000;
       text-transform: uppercase;
       letter-spacing: .05em;
       text-align: center;
+      line-height: 1;
     }
 
     .players {
       display: flex;
       justify-content: center;
       align-items: end;
-      gap: 6px;
+      gap: 4px;
       width: 100%;
     }
 
     .player-small {
-      width: clamp(62px, 9vw, 94px);
-      filter: drop-shadow(0 13px 9px rgba(0,0,0,.18));
+      width: clamp(46px, 7.2vw, 82px);
+      filter: drop-shadow(0 11px 8px rgba(0,0,0,.17));
     }
 
     .player-small:nth-child(2) {
-      width: clamp(72px, 10vw, 108px);
+      width: clamp(55px, 8.2vw, 96px);
     }
 
     .vs {
-      width: clamp(48px, 7vw, 70px);
-      height: clamp(48px, 7vw, 70px);
+      width: clamp(40px, 5.8vw, 58px);
+      height: clamp(40px, 5.8vw, 58px);
       border-radius: 50%;
       display: grid;
       place-items: center;
       background: #101828;
       color: white;
       border: 3px solid rgba(255,255,255,.88);
-      font-size: clamp(.9rem, 2.5vw, 1.2rem);
+      font-size: clamp(.76rem, 2vw, 1rem);
       font-weight: 1000;
-      box-shadow: 0 12px 25px rgba(0,0,0,.28);
+      box-shadow: 0 10px 20px rgba(0,0,0,.28);
     }
 
     .extras {
+      width: min(100%, 760px);
+      justify-self: center;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 10px;
-      width: min(100%, 620px);
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 7px;
     }
 
     .extra-card {
-      border-radius: 22px;
+      border-radius: 18px;
       background: rgba(0,0,0,.28);
       border: 1px solid rgba(255,255,255,.14);
-      padding: 11px;
+      padding: 7px;
       display: grid;
-      grid-template-columns: 55px 1fr;
-      gap: 10px;
+      grid-template-columns: 42px 1fr;
+      gap: 7px;
       align-items: center;
       min-width: 0;
     }
 
     .extra-card svg {
-      width: 50px;
-      filter: drop-shadow(0 10px 8px rgba(0,0,0,.18));
+      width: 40px;
+      filter: drop-shadow(0 8px 7px rgba(0,0,0,.18));
     }
 
     .extra-label {
-      font-size: .78rem;
+      font-size: .58rem;
       font-weight: 1000;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: .07em;
       color: rgba(248,251,255,.66);
+      line-height: 1;
     }
 
     .extra-name {
-      font-size: .92rem;
+      font-size: .76rem;
       font-weight: 1000;
       margin-top: 2px;
       color: white;
+      line-height: 1.05;
     }
+
+
+    .help-row {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      margin-top: -2px;
+    }
+
+    .grey-help-btn {
+      min-height: 38px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: clamp(.78rem, 1.6vw, .92rem);
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.22);
+      color: rgba(248,251,255,.94);
+    }
+
+    .grey-help-btn.used {
+      background: rgba(148,163,184,.35);
+      box-shadow: 0 0 0 3px rgba(203,213,225,.22);
+    }
+
+    .scenario.grey-mode {
+      filter: grayscale(1) contrast(1.25);
+    }
+
+    .scenario.grey-mode::after {
+      content: "GREY SCALE CONTRAST VIEW";
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      z-index: 8;
+      border-radius: 999px;
+      background: rgba(0,0,0,.62);
+      color: white;
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 5px 8px;
+      font-size: .56rem;
+      font-weight: 1000;
+      letter-spacing: .06em;
+    }
+
+    .points-note {
+      display: block;
+      margin-top: 4px;
+      opacity: .9;
+      font-size: .86em;
+    }
+
 
     .decision-row {
       position: relative;
       z-index: 3;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
 
     .decision-btn {
-      min-height: 78px;
-      font-size: clamp(1rem, 2.6vw, 1.34rem);
-      border-radius: 24px;
+      min-height: 58px;
+      font-size: clamp(.9rem, 2.2vw, 1.15rem);
+      border-radius: 20px;
       position: relative;
       overflow: hidden;
     }
@@ -363,7 +411,7 @@
     .decision-btn::after {
       content: "";
       position: absolute;
-      inset: auto 14px 10px 14px;
+      inset: auto 12px 8px 12px;
       height: 5px;
       border-radius: 999px;
       opacity: .72;
@@ -383,73 +431,78 @@
     .button-correct {
       background: rgba(53,211,154,.88) !important;
       color: #07131f !important;
-      box-shadow: 0 0 0 6px rgba(53,211,154,.42), 0 20px 45px rgba(53,211,154,.28) !important;
+      box-shadow: 0 0 0 5px rgba(53,211,154,.42), 0 16px 35px rgba(53,211,154,.28) !important;
       transform: scale(1.03);
     }
 
     .button-wrong {
       background: rgba(255,95,126,.88) !important;
       color: #07131f !important;
-      box-shadow: 0 0 0 6px rgba(255,95,126,.42), 0 20px 45px rgba(255,95,126,.28) !important;
+      box-shadow: 0 0 0 5px rgba(255,95,126,.42), 0 16px 35px rgba(255,95,126,.28) !important;
       transform: scale(.98);
     }
 
     .side {
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 12px;
       min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0,1fr) auto;
+      gap: 8px;
     }
 
     .card {
+      min-height: 0;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.085);
-      border-radius: 28px;
-      padding: 16px;
+      border-radius: 22px;
+      padding: 12px;
       box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
     .card h2 {
       margin: 0;
-      font-size: clamp(1.08rem, 2.6vw, 1.35rem);
+      font-size: clamp(.95rem, 2.1vw, 1.14rem);
       letter-spacing: -.025em;
     }
 
     .card p {
-      margin: 10px 0 0;
+      margin: 7px 0 0;
       color: var(--muted);
-      font-size: .95rem;
-      line-height: 1.36;
+      font-size: .82rem;
+      line-height: 1.28;
       font-weight: 800;
     }
 
     .checklist {
       display: grid;
-      gap: 9px;
-      margin-top: 12px;
+      gap: 6px;
+      margin-top: 9px;
     }
 
     .check {
-      border-radius: 16px;
+      border-radius: 13px;
       background: rgba(0,0,0,.22);
       border: 1px solid rgba(255,255,255,.12);
-      padding: 10px 12px;
+      padding: 7px 9px;
+      font-size: .78rem;
       font-weight: 950;
       color: rgba(248,251,255,.9);
+      line-height: 1.1;
     }
 
     .feedback {
-      min-height: 94px;
+      min-height: 76px;
       display: grid;
       place-items: center;
       text-align: center;
-      border-radius: 22px;
+      border-radius: 18px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.085);
-      padding: 14px;
-      font-size: clamp(.98rem, 2.3vw, 1.12rem);
+      padding: 10px;
+      font-size: clamp(.82rem, 1.8vw, .98rem);
       font-weight: 1000;
-      line-height: 1.3;
+      line-height: 1.25;
+      overflow: hidden;
     }
 
     .feedback.good {
@@ -473,15 +526,15 @@
       transform: translate(-50%, -50%);
       z-index: 9;
       border-radius: 999px;
-      padding: 18px 24px;
+      padding: 16px 22px;
       background: rgba(0,0,0,.72);
       border: 2px solid rgba(255,255,255,.24);
-      font-size: clamp(1.2rem, 4vw, 2.25rem);
+      font-size: clamp(1.15rem, 3.6vw, 2rem);
       font-weight: 1000;
       text-align: center;
       opacity: 0;
       pointer-events: none;
-      min-width: min(90%, 330px);
+      min-width: min(90%, 315px);
     }
 
     .pop.show {
@@ -501,66 +554,108 @@
       display: block;
     }
 
+
+    .feedback.explain {
+      align-items: start;
+      justify-items: start;
+      text-align: left;
+      overflow-y: auto;
+      max-height: 150px;
+      font-size: clamp(.78rem, 1.65vw, .94rem);
+      line-height: 1.3;
+      white-space: normal;
+    }
+
+    .learn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+      text-align: left;
+    }
+
+    .learn-box {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .learn-box h3 {
+      margin: 0 0 8px;
+      font-size: .98rem;
+      letter-spacing: -.02em;
+    }
+
+    .learn-box p {
+      margin: 0;
+      font-size: .86rem;
+      line-height: 1.35;
+    }
+
+
     .overlay {
       position: fixed;
       inset: 0;
       z-index: 1000;
       display: grid;
       place-items: center;
-      padding: 18px;
+      padding: 14px;
       overflow-y: auto;
       background: rgba(7,19,31,.84);
       backdrop-filter: blur(10px);
     }
 
     .modal {
-      width: min(100%, 700px);
-      border-radius: 30px;
+      width: min(100%, 680px);
+      border-radius: 26px;
       border: 1px solid var(--line);
       background: rgba(12,22,38,.97);
       box-shadow: var(--shadow);
-      padding: clamp(20px, 5vw, 34px);
+      padding: clamp(18px, 4vw, 30px);
       text-align: center;
     }
 
     .modal h2 {
       margin: 0;
-      font-size: clamp(2rem, 8vw, 4.2rem);
+      font-size: clamp(1.9rem, 7vw, 3.7rem);
       line-height: .9;
       letter-spacing: -.07em;
     }
 
     .modal p {
       max-width: 52ch;
-      margin: 14px auto 0;
+      margin: 12px auto 0;
       color: var(--muted);
-      font-size: clamp(.95rem, 2.8vw, 1.08rem);
+      font-size: clamp(.9rem, 2.4vw, 1.02rem);
       font-weight: 820;
-      line-height: 1.45;
+      line-height: 1.38;
     }
 
     .rules {
       display: grid;
-      gap: 8px;
-      margin: 18px 0;
+      gap: 7px;
+      margin: 14px 0;
       text-align: left;
     }
 
     .rule {
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.08);
-      border-radius: 18px;
-      padding: 12px 14px;
+      border-radius: 16px;
+      padding: 10px 12px;
       color: rgba(248,251,255,.92);
       font-weight: 930;
+      font-size: .9rem;
     }
 
     .modal-actions {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin-top: 18px;
+      gap: 9px;
+      margin-top: 14px;
     }
 
     .hub-link,
@@ -575,8 +670,8 @@
       background: rgba(255,255,255,.10);
       border: 1px solid rgba(255,255,255,.18);
       border-radius: 999px;
-      padding: 9px 14px;
-      min-height: 42px;
+      padding: 8px 12px;
+      min-height: 38px;
     }
 
     .hub-link:active,
@@ -591,230 +686,331 @@
     footer {
       display: grid;
       place-items: center;
-      gap: 6px;
+      gap: 4px;
       text-align: center;
       color: rgba(248,251,255,.55);
-      font-size: .77rem;
+      font-size: .68rem;
       font-weight: 1000;
-      letter-spacing: .13em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      padding: 2px 4px 4px;
+      line-height: 1.05;
+      padding: 0;
     }
 
     footer .hub-link {
       text-transform: none;
       letter-spacing: .04em;
-      font-size: .82rem;
+      font-size: .72rem;
+      min-height: 32px;
+      padding: 6px 10px;
     }
 
-    @media (max-width: 940px) {
-      main {
-        grid-template-columns: 1fr;
+    @media (max-width: 900px) {
+      body {
+        padding: 8px;
       }
 
-      .pitch {
-        min-height: 560px;
+      .game {
+        height: calc(100dvh - 16px);
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0,1fr) auto;
       }
 
       .side {
-        grid-template-rows: auto auto auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+
+      .side .card {
+        display: none;
+      }
+
+      .feedback {
+        min-height: 50px;
+        border-radius: 16px;
+        font-size: .82rem;
+        padding: 8px 10px;
       }
     }
 
     @media (max-width: 620px) {
       body {
-        padding: 10px;
+        padding: 7px;
       }
 
       .game {
-        min-height: calc(100dvh - 20px);
-        gap: 10px;
+        height: calc(100dvh - 14px);
+        gap: 6px;
       }
 
       header {
         align-items: flex-start;
       }
 
+      h1 {
+        font-size: clamp(1.28rem, 7vw, 1.85rem);
+      }
+
+      .subtitle {
+        font-size: .73rem;
+      }
+
+      .top-actions {
+        gap: 5px;
+      }
+
       .top-actions button {
-        min-height: 42px;
-        padding: 10px 12px;
-        border-radius: 15px;
-        font-size: .86rem;
+        min-height: 36px;
+        padding: 8px 10px;
+        border-radius: 13px;
+        font-size: .78rem;
       }
 
       .scorebar {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+      }
+
+      .stat {
+        border-radius: 13px;
+        padding: 5px 3px;
+      }
+
+      .stat span {
+        font-size: .5rem;
+        letter-spacing: .04em;
+      }
+
+      .stat strong {
+        font-size: .93rem;
       }
 
       .pitch {
-        min-height: 540px;
-        border-radius: 24px;
-        padding: 14px;
+        border-radius: 20px;
+        padding: 9px;
+        gap: 6px;
       }
 
       .pitch::before {
-        inset: 10px;
-        border-radius: 20px;
+        inset: 7px;
+        border-radius: 16px;
       }
 
       .mission {
-        padding: 9px 12px;
-        font-size: .82rem;
+        padding: 7px 10px;
+        font-size: .7rem;
+      }
+
+      .scenario {
+        gap: 5px;
       }
 
       .teams {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .vs {
-        width: 46px;
-        height: 46px;
-        justify-self: center;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 5px;
       }
 
       .team-card {
-        border-radius: 22px;
-        padding: 12px;
-      }
-
-      .players {
+        border-radius: 17px;
+        padding: 7px 4px;
         gap: 4px;
       }
 
+      .team-name {
+        font-size: .57rem;
+      }
+
+      .players {
+        gap: 1px;
+      }
+
       .player-small {
-        width: 62px;
+        width: clamp(36px, 12.5vw, 52px);
       }
 
       .player-small:nth-child(2) {
-        width: 74px;
+        width: clamp(43px, 14.5vw, 60px);
+      }
+
+      .vs {
+        width: 32px;
+        height: 32px;
+        font-size: .66rem;
+        border-width: 2px;
       }
 
       .extras {
-        grid-template-columns: 1fr;
-        gap: 8px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
       }
 
       .extra-card {
-        grid-template-columns: 46px 1fr;
-        padding: 9px;
+        grid-template-columns: 30px 1fr;
+        padding: 5px;
+        gap: 4px;
+        border-radius: 13px;
       }
 
       .extra-card svg {
-        width: 42px;
+        width: 28px;
+      }
+
+      .extra-label {
+        font-size: .46rem;
+      }
+
+      .extra-name {
+        font-size: .58rem;
+      }
+
+
+      .help-row {
+        margin-top: -1px;
+      }
+
+      .grey-help-btn {
+        min-height: 34px;
+        padding: 7px 10px;
+        font-size: .7rem;
+      }
+
+      .scenario.grey-mode::after {
+        font-size: .45rem;
+        padding: 4px 6px;
       }
 
       .decision-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
       }
 
       .decision-btn {
-        min-height: 66px;
-        border-radius: 21px;
+        min-height: 48px;
+        border-radius: 16px;
+        font-size: .82rem;
+        padding: 8px 8px;
       }
 
-      .card {
-        border-radius: 22px;
-        padding: 14px;
-      }
-
-      .check {
-        padding: 9px 10px;
-        font-size: .9rem;
+      .decision-btn::after {
+        height: 4px;
+        bottom: 7px;
+        left: 10px;
+        right: 10px;
       }
 
       .feedback {
-        min-height: 84px;
+        min-height: 44px;
+        font-size: .74rem;
+        border-radius: 14px;
       }
 
-      .modal {
-        padding: 20px;
+      footer {
+        font-size: .55rem;
       }
 
-      .modal h2 {
-        font-size: clamp(2rem, 10vw, 3.2rem);
+      footer .hub-link {
+        min-height: 28px;
+        font-size: .66rem;
+        padding: 5px 9px;
       }
 
-      .modal p {
-        font-size: .98rem;
-        line-height: 1.35;
+
+      .feedback.explain {
+        min-height: 72px;
+        max-height: 96px;
+        font-size: .68rem;
+        line-height: 1.24;
       }
 
-      .rules {
-        margin: 14px 0;
+      .learn-grid {
+        grid-template-columns: 1fr;
         gap: 8px;
       }
 
+      .learn-box {
+        padding: 10px;
+        border-radius: 15px;
+      }
+
+      .learn-box h3 {
+        font-size: .9rem;
+      }
+
+      .learn-box p {
+        font-size: .78rem;
+      }
+
+      .modal {
+        padding: 16px;
+      }
+
+      .modal h2 {
+        font-size: clamp(1.8rem, 10vw, 3rem);
+      }
+
+      .modal p {
+        font-size: .88rem;
+        line-height: 1.32;
+      }
+
       .rule {
-        padding: 10px 12px;
-        border-radius: 16px;
-        font-size: .95rem;
+        padding: 8px 10px;
+        font-size: .82rem;
       }
 
       #startBtn {
         width: 100%;
-        min-height: 64px;
-        border-radius: 22px;
-        font-size: 1.14rem;
+        min-height: 56px;
+        border-radius: 20px;
+        font-size: 1.05rem;
       }
 
-      .hub-link,
       .hub-link-modal {
         width: min(100%, 350px);
-        min-height: 46px;
-        font-size: .84rem;
+        min-height: 42px;
+        font-size: .8rem;
       }
     }
 
-    @media (max-height: 720px) and (orientation: landscape) {
-      body {
-        padding: 8px;
+    @media (max-height: 620px) and (orientation: landscape) {
+      .subtitle,
+      footer .hub-link,
+      .side .card,
+      .extras {
+        display: none !important;
       }
 
       .game {
-        min-height: calc(100dvh - 16px);
-        gap: 8px;
-      }
-
-      .subtitle {
-        display: none;
-      }
-
-      .stat {
-        padding: 7px 8px;
+        grid-template-rows: auto auto minmax(0,1fr) auto;
+        gap: 5px;
       }
 
       main {
-        grid-template-columns: minmax(0,1fr) 300px;
+        grid-template-columns: minmax(0,1fr) 260px;
+        grid-template-rows: minmax(0,1fr);
       }
 
       .pitch {
-        min-height: 375px;
-      }
-
-      .team-card {
-        padding: 10px;
+        padding: 8px;
       }
 
       .player-small {
-        width: 55px;
+        width: 45px;
       }
 
       .player-small:nth-child(2) {
-        width: 67px;
-      }
-
-      .extras {
-        display: none;
+        width: 54px;
       }
 
       .decision-btn {
-        min-height: 58px;
+        min-height: 44px;
       }
 
-      .card p,
-      .check {
-        font-size: .84rem;
+      .feedback {
+        min-height: 48px;
       }
     }
   </style>
@@ -825,10 +1021,11 @@
     <header>
       <div>
         <h1>Coach Kit Clash</h1>
-        <p class="subtitle">100 kit combinations. Decide safe or clash risk.</p>
+        <p class="subtitle">Safe = strong light-vs-dark contrast. Risk = danger colour pair.</p>
       </div>
 
       <div class="top-actions">
+        <button id="learnBtn">Learn</button>
         <button id="pauseBtn">Pause</button>
         <button id="restartBtn" class="danger">Restart</button>
       </div>
@@ -844,11 +1041,9 @@
 
     <main>
       <section class="pitch" id="pitchEl" aria-label="Kit clash decision area">
-        <div class="mission" id="missionEl">Would this kit match be clear for every player?</div>
+        <div class="mission" id="missionEl">Glance test: can you separate the shirts instantly?</div>
 
         <div class="scenario">
-          <div class="match-title" id="matchTitle">Fixture check</div>
-
           <div class="teams">
             <div class="team-card">
               <div class="team-name">Home Team</div>
@@ -866,6 +1061,10 @@
           <div class="extras" id="extras"></div>
         </div>
 
+        <div class="help-row">
+          <button class="grey-help-btn" id="greyHelpBtn" aria-label="Turn on grey scale contrast help">◐ Grey Scale Help</button>
+        </div>
+
         <div class="decision-row">
           <button class="decision-btn safe-btn" id="safeBtn">SAFE KIT</button>
           <button class="decision-btn risk-btn" id="riskBtn">KIT CLASH RISK</button>
@@ -876,23 +1075,24 @@
 
       <aside class="side">
         <section class="card">
-          <h2>Coach check</h2>
-          <p id="coachText">Look at the whole kit, not just the shirt colour.</p>
+          <h2>Best and risky colours</h2>
+          <p id="coachText">Best rule: one team light, one team dark. Safe examples: white vs black, blue vs yellow, red vs yellow, blue vs white, black vs yellow.</p>
           <div class="checklist">
-            <div class="check">Shirts</div>
-            <div class="check">Shorts</div>
-            <div class="check">Socks</div>
-            <div class="check">Goalkeeper / referee</div>
+            <div class="check">Safe: strong light-vs-dark contrast</div>
+            <div class="check">Risk: red/green/orange/brown</div>
+            <div class="check">Risk: blue/purple/navy/black</div>
+            <div class="check">Risk: white/pastel/light kits</div>
           </div>
         </section>
 
         <section class="card">
-          <h2>Why it matters</h2>
-          <p>A kit that looks different to one person can still be confusing for a colour-blind player, especially at speed or distance.</p>
+          <h2>Why colour blindness makes football harder</h2>
+          <p>Players must identify teammates at speed while moving, scanning and under pressure. If kits are not clear at a glance, decisions slow down.</p>
           <div class="checklist">
-            <div class="check">Prevent wrong passes</div>
-            <div class="check">Protect confidence</div>
-            <div class="check">Fix problems before kick-off</div>
+            <div class="check">Wrong pass risk</div>
+            <div class="check">Delayed scanning</div>
+            <div class="check">More mental effort</div>
+            <div class="check">Lost confidence under pressure</div>
           </div>
         </section>
 
@@ -909,17 +1109,48 @@
   <div class="overlay" id="startOverlay">
     <div class="modal">
       <h2>Coach Kit Clash</h2>
-      <p>You are the coach before kick-off. There are 100 possible kit combinations. Decide if the fixture is safe or a colour-blind kit clash risk.</p>
+      <p>You are the coach before kick-off. Safe kits need strong contrast. Risky kits use danger clash pairs or force players to rely on details.</p>
 
       <div class="rules">
-        <div class="rule">1. Compare both teams.</div>
-        <div class="rule">2. Check shirts, shorts, socks, goalkeeper and referee.</div>
-        <div class="rule">3. Tap Safe Kit or Kit Clash Risk.</div>
+        <div class="rule">1. Look for strong light-vs-dark contrast.</div>
+        <div class="rule">2. If players must rely on stripes/details, it is a clash risk.</div>
+        <div class="rule">3. Tap Safe Kit or Kit Clash Risk. Correct = +10, wrong = -10, grey scale help correct = +5.</div>
       </div>
 
       <div class="modal-actions">
         <button class="primary" id="startBtn">Start Game</button>
+        <button id="startLearnBtn">Learn</button>
         <a class="hub-link-modal" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="learnOverlay">
+    <div class="modal">
+      <h2>Coach Learning</h2>
+      <p>Use this rule: the safest colour-blind kit decision is usually one team light and one team dark. Grey scale help removes colour so you can judge contrast, but using it reduces a correct reward to 5 points.</p>
+
+      <div class="learn-grid">
+        <div class="learn-box">
+          <h3>Best colour choices</h3>
+          <p>White vs black, blue vs yellow, red vs yellow, blue vs white and black vs yellow are strong beginner pairings because they create fast light-vs-dark separation.</p>
+        </div>
+        <div class="learn-box">
+          <h3>Risky colour choices</h3>
+          <p>Red/green/orange/brown, blue/purple/navy/black, yellow/orange, white/pastels and dark-vs-dark kits can all become confusing at speed or distance.</p>
+        </div>
+        <div class="learn-box">
+          <h3>Goalkeepers and referee</h3>
+          <p>Goalkeepers and referees must be separate from both teams and each other. Green goalkeeper kits can also disappear against the grass background.</p>
+        </div>
+        <div class="learn-box">
+          <h3>Why it affects play</h3>
+          <p>Colour-blind players may need extra time to identify teammates. That can cause hesitation, wrong passes, missed runs, poor positioning and lower confidence.</p>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="primary" id="closeLearnBtn">Back to Game</button>
       </div>
     </div>
   </div>
@@ -927,10 +1158,11 @@
   <div class="overlay hidden" id="pauseOverlay">
     <div class="modal">
       <h2>Paused</h2>
-      <p>Think like a coach: can every player clearly separate the teams at match speed?</p>
+      <p>Think like a coach: can every player clearly separate everyone on the pitch?</p>
 
       <div class="modal-actions">
         <button class="primary" id="resumeBtn">Resume</button>
+        <button id="pauseLearnBtn">Learn</button>
         <button class="danger" id="pauseRestartBtn">Restart</button>
         <a class="hub-link-modal" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
       </div>
@@ -944,6 +1176,7 @@
 
       <div class="modal-actions">
         <button class="primary" id="playAgainBtn">Play Again</button>
+        <button id="gameOverLearnBtn">Learn</button>
         <a class="hub-link-modal" href="https://cornelius-aurelius.github.io/COLOUR-BLINDNESS-GAMING-HUB/" target="_blank" rel="noopener">More Colour Blindness Games</a>
       </div>
     </div>
@@ -962,15 +1195,17 @@
     const homePlayers = $("homePlayers");
     const awayPlayers = $("awayPlayers");
     const extras = $("extras");
-    const matchTitle = $("matchTitle");
     const missionEl = $("missionEl");
     const coachText = $("coachText");
     const feedbackEl = $("feedbackEl");
     const popEl = $("popEl");
     const safeBtn = $("safeBtn");
     const riskBtn = $("riskBtn");
+    const greyHelpBtn = $("greyHelpBtn");
+    const scenarioEl = document.querySelector(".scenario");
 
     const startOverlay = $("startOverlay");
+    const learnOverlay = $("learnOverlay");
     const pauseOverlay = $("pauseOverlay");
     const gameOverOverlay = $("gameOverOverlay");
     const finalText = $("finalText");
@@ -979,44 +1214,146 @@
     let score = 0;
     let streak = 0;
     let lives = 3;
-    let best = Number(localStorage.getItem("coachKitClashBest100") || 0);
+    let best = Number(localStorage.getItem("coachKitClashBestV3") || 0);
     let running = false;
     let locked = false;
     let currentAnswer = "risk";
     let currentReason = "";
+    let currentScenario = null;
+    let greyHelpUsed = false;
     let kitBank = [];
 
     bestEl.textContent = best;
 
     const colours = [
-      { name: "red", hex: "#dc2626", family: "redGreen" },
-      { name: "green", hex: "#16a34a", family: "redGreen" },
-      { name: "blue", hex: "#2563eb", family: "bluePurple" },
-      { name: "purple", hex: "#7c3aed", family: "bluePurple" },
-      { name: "yellow", hex: "#facc15", family: "bright" },
-      { name: "orange", hex: "#f97316", family: "bright" },
-      { name: "white", hex: "#f8fafc", family: "light" },
-      { name: "grey", hex: "#94a3b8", family: "light" },
-      { name: "sky", hex: "#7dd3fc", family: "light" },
+      { name: "red", hex: "#dc2626", family: "red" },
+      { name: "green", hex: "#16a34a", family: "green" },
+      { name: "blue", hex: "#2563eb", family: "blue" },
+      { name: "purple", hex: "#7c3aed", family: "purple" },
+      { name: "darkPurple", hex: "#4c1d95", family: "purple" },
+      { name: "yellow", hex: "#facc15", family: "yellow" },
+      { name: "lime", hex: "#a3e635", family: "green" },
+      { name: "lightGreen", hex: "#86efac", family: "green" },
+      { name: "orange", hex: "#f97316", family: "orange" },
+      { name: "brown", hex: "#7c2d12", family: "brown" },
+      { name: "maroon", hex: "#7f1d1d", family: "red" },
+      { name: "burgundy", hex: "#881337", family: "red" },
+      { name: "darkRed", hex: "#7f1d1d", family: "red" },
+      { name: "white", hex: "#f8fafc", family: "white" },
+      { name: "cream", hex: "#fef3c7", family: "white" },
+      { name: "grey", hex: "#94a3b8", family: "grey" },
+      { name: "lightGrey", hex: "#cbd5e1", family: "grey" },
+      { name: "darkGrey", hex: "#374151", family: "dark" },
+      { name: "sky", hex: "#7dd3fc", family: "blue" },
+      { name: "paleBlue", hex: "#bfdbfe", family: "blue" },
+      { name: "pink", hex: "#db2777", family: "pink" },
+      { name: "palePink", hex: "#fbcfe8", family: "pink" },
       { name: "black", hex: "#111827", family: "dark" },
       { name: "navy", hex: "#172554", family: "dark" },
-      { name: "maroon", hex: "#7f1d1d", family: "dark" },
-      { name: "pink", hex: "#db2777", family: "redGreen" },
-      { name: "teal", hex: "#0d9488", family: "redGreen" }
+      { name: "darkGreen", hex: "#14532d", family: "green" },
+      { name: "olive", hex: "#4d7c0f", family: "green" },
+      { name: "khaki", hex: "#a3a36a", family: "green" },
+      { name: "teal", hex: "#0d9488", family: "green" }
     ];
 
     const colourByName = Object.fromEntries(colours.map(c => [c.name, c]));
-    const shorts = ["white", "black", "navy", "grey"];
-    const socks = ["white", "black", "red", "green", "blue", "yellow", "navy"];
-    const stripes = ["white", "black", "yellow", "blue", "red"];
+    const shorts = ["white", "black", "navy", "grey", "darkGrey", "red", "blue"];
+    const socks = ["white", "black", "red", "green", "blue", "yellow", "navy", "grey", "orange"];
+    const stripes = ["white", "black", "yellow", "blue", "red", "green", "purple", "navy"];
     const patterns = ["centre", "double", "hoop", "sash", "plain"];
+
+    const dangerPairs = [
+      ["red","green"], ["red","brown"], ["red","orange"], ["red","maroon"], ["red","burgundy"], ["red","darkPurple"], ["red","darkRed"],
+      ["green","brown"], ["green","orange"], ["green","yellow"], ["green","lime"], ["green","grey"], ["green","khaki"], ["green","olive"],
+      ["blue","purple"], ["blue","darkPurple"], ["blue","navy"], ["blue","black"],
+      ["sky","grey"], ["sky","white"], ["sky","lightGrey"], ["paleBlue","white"], ["paleBlue","grey"],
+      ["purple","burgundy"], ["purple","darkRed"], ["purple","blue"], ["purple","black"],
+      ["orange","green"], ["orange","brown"], ["orange","red"], ["orange","yellow"],
+      ["yellow","lightGreen"], ["yellow","white"], ["yellow","orange"], ["yellow","cream"], ["yellow","lime"],
+      ["brown","green"], ["brown","red"], ["brown","orange"], ["brown","maroon"],
+      ["grey","pink"], ["grey","sky"], ["grey","green"], ["grey","white"], ["darkGrey","black"], ["lightGrey","white"],
+      ["black","navy"], ["black","darkPurple"], ["black","darkGreen"], ["black","darkRed"], ["black","maroon"], ["black","darkGrey"],
+      ["white","lightGrey"], ["white","yellow"], ["white","paleBlue"], ["white","cream"], ["white","palePink"]
+    ];
+
+    function pairKey(a, b) {
+      return [a, b].sort().join("|");
+    }
+
+    const dangerPairSet = new Set(dangerPairs.map(pair => pairKey(pair[0], pair[1])));
+
+    const safePairs = [
+      ["white","black"], ["white","blue"], ["white","red"], ["white","navy"],
+      ["black","yellow"], ["black","white"], ["black","sky"], ["black","palePink"], ["black","cream"],
+      ["blue","yellow"], ["blue","white"], ["blue","red"], ["blue","orange"],
+      ["red","yellow"], ["red","white"], ["red","sky"], ["red","cream"],
+      ["yellow","navy"], ["yellow","black"], ["yellow","blue"]
+    ];
+
+    const safePairSet = new Set(safePairs.map(pair => pairKey(pair[0], pair[1])));
+
+    const safeKitTemplates = [
+      { shirtName: "white", shortName: "white", sockName: "white", stripeName: "black", pattern: "plain" },
+      { shirtName: "black", shortName: "black", sockName: "black", stripeName: "white", pattern: "plain" },
+      { shirtName: "yellow", shortName: "black", sockName: "yellow", stripeName: "black", pattern: "plain" },
+      { shirtName: "blue", shortName: "blue", sockName: "white", stripeName: "yellow", pattern: "plain" },
+      { shirtName: "red", shortName: "white", sockName: "red", stripeName: "white", pattern: "plain" },
+      { shirtName: "white", shortName: "black", sockName: "white", stripeName: "blue", pattern: "plain" },
+      { shirtName: "black", shortName: "white", sockName: "black", stripeName: "yellow", pattern: "plain" },
+      { shirtName: "blue", shortName: "white", sockName: "blue", stripeName: "yellow", pattern: "plain" },
+      { shirtName: "yellow", shortName: "blue", sockName: "yellow", stripeName: "black", pattern: "plain" },
+      { shirtName: "red", shortName: "black", sockName: "white", stripeName: "white", pattern: "plain" },
+      { shirtName: "sky", shortName: "white", sockName: "sky", stripeName: "black", pattern: "plain" },
+      { shirtName: "palePink", shortName: "white", sockName: "palePink", stripeName: "black", pattern: "plain" },
+      { shirtName: "cream", shortName: "black", sockName: "cream", stripeName: "black", pattern: "plain" },
+      { shirtName: "white", shortName: "blue", sockName: "white", stripeName: "black", pattern: "plain" },
+      { shirtName: "white", shortName: "red", sockName: "white", stripeName: "black", pattern: "plain" },
+      { shirtName: "black", shortName: "black", sockName: "yellow", stripeName: "white", pattern: "plain" },
+      { shirtName: "blue", shortName: "blue", sockName: "yellow", stripeName: "white", pattern: "plain" },
+      { shirtName: "red", shortName: "white", sockName: "white", stripeName: "white", pattern: "plain" },
+      { shirtName: "white", shortName: "black", sockName: "black", stripeName: "blue", pattern: "plain" },
+      { shirtName: "yellow", shortName: "blue", sockName: "blue", stripeName: "black", pattern: "plain" }
+    ];
+
+    function templateToKit(template) {
+      const shirt = colourByName[template.shirtName];
+      const shortColour = colourByName[template.shortName];
+      const sockColour = colourByName[template.sockName];
+      const stripeColour = colourByName[template.stripeName];
+
+      return {
+        shirtName: template.shirtName,
+        shirt: shirt.hex,
+        sleeve: shirt.hex,
+        shirtFamily: shirt.family,
+        shortName: template.shortName,
+        shorts: shortColour.hex,
+        sockName: template.sockName,
+        socks: sockColour.hex,
+        stripeName: template.stripeName,
+        stripe: stripeColour.hex,
+        pattern: template.pattern || "plain"
+      };
+    }
+
+    const safeKitChoices = safeKitTemplates.map(templateToKit);
+
+    function isStrongSafePair(a, b) {
+      return safePairSet.has(pairKey(a.shirtName, b.shirtName));
+    }
+
+
+    const refereeBaseKits = [
+      { shirtName: "black", shirt: "#111827", sleeve: "#111827", shirtFamily: "dark", shortName: "black", shorts: "#111827", sockName: "black", socks: "#111827", stripeName: "white", stripe: "#f8fafc", pattern: "plain" },
+      { shirtName: "yellow", shirt: "#facc15", sleeve: "#facc15", shirtFamily: "yellow", shortName: "black", shorts: "#111827", sockName: "black", socks: "#111827", stripeName: "black", stripe: "#111827", pattern: "plain" },
+      { shirtName: "lightGreen", shirt: "#86efac", sleeve: "#86efac", shirtFamily: "green", shortName: "black", shorts: "#111827", sockName: "black", socks: "#111827", stripeName: "black", stripe: "#111827", pattern: "plain" },
+      { shirtName: "sky", shirt: "#7dd3fc", sleeve: "#7dd3fc", shirtFamily: "blue", shortName: "black", shorts: "#111827", sockName: "black", socks: "#111827", stripeName: "black", stripe: "#111827", pattern: "plain" },
+      { shirtName: "pink", shirt: "#db2777", sleeve: "#db2777", shirtFamily: "pink", shortName: "black", shorts: "#111827", sockName: "black", socks: "#111827", stripeName: "black", stripe: "#111827", pattern: "plain" },
+      { shirtName: "orange", shirt: "#f97316", sleeve: "#f97316", shirtFamily: "orange", shortName: "black", shorts: "#111827", sockName: "black", socks: "#111827", stripeName: "black", stripe: "#111827", pattern: "plain" }
+    ];
 
     function pick(arr) {
       return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    function shuffle(arr) {
-      return [...arr].sort(() => Math.random() - 0.5);
     }
 
     function uniqueKey(kit) {
@@ -1027,51 +1364,89 @@
       const bank = [];
       const used = new Set();
 
-      for (const shirt of colours) {
-        for (const shortName of shorts) {
-          for (const sockName of socks) {
-            for (const stripeName of stripes) {
-              for (const pattern of patterns) {
-                if (bank.length >= 100) return bank;
+      function addKit(kit) {
+        const key = uniqueKey(kit);
+        if (!used.has(key) && bank.length < 100) {
+          used.add(key);
+          bank.push(kit);
+        }
+      }
 
-                if (stripeName === shirt.name && pattern !== "plain") continue;
+      // Start with the safest beginner kit bank.
+      safeKitChoices.forEach(addKit);
 
-                const kit = {
-                  shirtName: shirt.name,
-                  shirt: shirt.hex,
-                  sleeve: shirt.hex,
-                  shirtFamily: shirt.family,
-                  shortName,
-                  shorts: colourByName[shortName].hex,
-                  sockName,
-                  socks: colourByName[sockName].hex,
-                  stripeName,
-                  stripe: colourByName[stripeName].hex,
-                  pattern
-                };
+      // Fill the rest of the 100-kit bank with varied football kits.
+      for (let round = 0; bank.length < 100 && round < 30; round++) {
+        for (const shirt of colours) {
+          if (bank.length >= 100) break;
 
-                const key = uniqueKey(kit);
-                if (!used.has(key)) {
-                  used.add(key);
-                  bank.push(kit);
-                }
-              }
-            }
-          }
+          const shortName = shorts[(round + colours.indexOf(shirt)) % shorts.length];
+          const sockName = socks[(round * 2 + colours.indexOf(shirt)) % socks.length];
+          const stripeName = stripes[(round * 3 + colours.indexOf(shirt)) % stripes.length];
+          const pattern = patterns[(round + colours.indexOf(shirt)) % patterns.length];
+          const safeStripe = stripeName === shirt.name ? "white" : stripeName;
+
+          addKit({
+            shirtName: shirt.name,
+            shirt: shirt.hex,
+            sleeve: shirt.hex,
+            shirtFamily: shirt.family,
+            shortName,
+            shorts: colourByName[shortName].hex,
+            sockName,
+            socks: colourByName[sockName].hex,
+            stripeName: safeStripe,
+            stripe: colourByName[safeStripe].hex,
+            pattern
+          });
         }
       }
 
       return bank;
     }
 
-    function colourDistanceFamily(a, b) {
-      if (a.shirtFamily === b.shirtFamily) return "sameRiskFamily";
-      if ((a.shirtFamily === "light" && b.shirtFamily === "light") || (a.shirtFamily === "dark" && b.shirtFamily === "dark")) return "toneRisk";
-      return "different";
+    function dominantShirtRisk(a, b) {
+      // Main rule:
+      // A kit clash happens when the main shirt colour of both teams looks too similar at a quick glance.
+      // Stripes, sleeves, socks, badges and numbers do not rescue a confusing dominant shirt.
+      if (a.shirtName === b.shirtName) return true;
+      if (dangerPairSet.has(pairKey(a.shirtName, b.shirtName))) return true;
+
+      return false;
     }
 
-    function clone(obj) {
-      return JSON.parse(JSON.stringify(obj));
+    function stripeDangerRisk(a, b) {
+      if (a.pattern === "plain" || b.pattern === "plain") return false;
+      return dangerPairSet.has(pairKey(a.stripeName, b.stripeName));
+    }
+
+    function environmentRisk(a, b) {
+      const bothDark =
+        ["black", "navy", "darkPurple", "darkGreen", "darkRed", "maroon", "darkGrey"].includes(a.shirtName) &&
+        ["black", "navy", "darkPurple", "darkGreen", "darkRed", "maroon", "darkGrey"].includes(b.shirtName);
+
+      const bothLight =
+        ["white", "lightGrey", "grey", "paleBlue", "palePink", "cream", "yellow", "sky"].includes(a.shirtName) &&
+        ["white", "lightGrey", "grey", "paleBlue", "palePink", "cream", "yellow", "sky"].includes(b.shirtName);
+
+      return bothDark || bothLight;
+    }
+
+    function fullKitRisk(a, b) {
+      if (dominantShirtRisk(a, b)) return true;
+
+      // Extra football kit clashes:
+      // Red stripes vs green stripes, blue stripes vs purple stripes,
+      // black stripes vs navy stripes, etc.
+      if (stripeDangerRisk(a, b)) return true;
+
+      // Dark kit vs dark kit under floodlights / light kit vs light kit in bright sun.
+      if (environmentRisk(a, b)) return true;
+
+      // If the answer depends on lower-body details, the glance test fails.
+      if (a.shortName === b.shortName && a.sockName === b.sockName) return true;
+
+      return false;
     }
 
     function findRiskKit(home, type) {
@@ -1079,89 +1454,347 @@
 
       if (type === "sameShirt") {
         candidates = candidates.filter(k => k.shirtName === home.shirtName);
-      } else if (type === "redGreenBluePurple") {
-        candidates = candidates.filter(k => k.shirtFamily === home.shirtFamily && k.shirtName !== home.shirtName);
-      } else if (type === "lightDark") {
-        candidates = candidates.filter(k => k.shirtFamily === home.shirtFamily && (k.shirtFamily === "light" || k.shirtFamily === "dark"));
+      } else if (type === "colourFamily" || type === "dangerPair") {
+        candidates = candidates.filter(k => dangerPairSet.has(pairKey(home.shirtName, k.shirtName)));
+      } else if (type === "tone") {
+        candidates = candidates.filter(k => environmentRisk(home, k));
       } else if (type === "shortsSocks") {
-        candidates = candidates.filter(k => k.shortName === home.shortName || k.sockName === home.sockName);
+        candidates = candidates.filter(k => fullKitRisk(home, k) || (k.shortName === home.shortName && k.sockName === home.sockName));
+      } else if (type === "stripe") {
+        candidates = candidates.filter(k => stripeDangerRisk(home, k) || dangerPairSet.has(pairKey(home.stripeName, k.stripeName)));
       } else {
-        candidates = candidates.filter(k => colourDistanceFamily(home, k) !== "different" || k.shortName === home.shortName);
+        candidates = candidates.filter(k => fullKitRisk(home, k));
       }
 
       return candidates.length ? pick(candidates) : pick(kitBank.filter(k => uniqueKey(k) !== uniqueKey(home)));
     }
 
-    function findSafeKit(home) {
-      const candidates = kitBank.filter(k => {
-        if (uniqueKey(k) === uniqueKey(home)) return false;
-        if (colourDistanceFamily(home, k) !== "different") return false;
-        if (k.shortName === home.shortName && k.sockName === home.sockName) return false;
-        if (k.shirtName === home.shirtName) return false;
-        return true;
+    function findSafeKit(...avoid) {
+      const primary = avoid.find(Boolean);
+
+      const preferred = kitBank.filter(k => {
+        if (!primary || !isStrongSafePair(k, primary)) return false;
+
+        return avoid.every(other => {
+          if (!other) return true;
+          if (uniqueKey(k) === uniqueKey(other)) return false;
+          if (dominantShirtRisk(k, other)) return false;
+          if (fullKitRisk(k, other)) return false;
+          return true;
+        });
       });
 
-      return candidates.length ? pick(candidates) : pick(kitBank.filter(k => uniqueKey(k) !== uniqueKey(home)));
+      if (preferred.length) return pick(preferred);
+
+      const candidates = kitBank.filter(k => {
+        return avoid.every(other => {
+          if (!other) return true;
+          if (uniqueKey(k) === uniqueKey(other)) return false;
+          if (dominantShirtRisk(k, other)) return false;
+          if (fullKitRisk(k, other)) return false;
+          return true;
+        });
+      });
+
+      return candidates.length
+        ? pick(candidates)
+        : pick(kitBank.filter(k => avoid.every(other => other ? uniqueKey(k) !== uniqueKey(other) : true)));
+    }
+
+    function makePlainRoleKit(shirtName, shortName = "black", sockName = "black") {
+      return templateToKit({
+        shirtName,
+        shortName,
+        sockName,
+        stripeName: shirtName === "black" ? "white" : "black",
+        pattern: "plain"
+      });
+    }
+
+    const keeperBaseKits = [
+      makePlainRoleKit("yellow", "black", "yellow"),
+      makePlainRoleKit("black", "black", "black"),
+      makePlainRoleKit("white", "black", "white"),
+      makePlainRoleKit("blue", "blue", "white"),
+      makePlainRoleKit("pink", "black", "pink"),
+      makePlainRoleKit("lightGrey", "black", "lightGrey"),
+      makePlainRoleKit("purple", "black", "purple")
+    ];
+
+    function isKeeperRisk(keeper, ...others) {
+      const grassRisk = ["green", "lightGreen", "darkGreen", "olive", "khaki", "teal"].includes(keeper.shirtName);
+      if (grassRisk) return true;
+
+      const otherNames = others.filter(Boolean).map(k => k.shirtName);
+
+      if (keeper.shirtName === "orange" && otherNames.some(n => ["red", "green", "yellow", "orange", "lime", "lightGreen"].includes(n))) return true;
+      if (keeper.shirtName === "navy" && otherNames.some(n => ["black", "navy", "darkGrey", "darkPurple"].includes(n))) return true;
+      if (keeper.shirtName === "purple" && otherNames.some(n => ["blue", "navy", "black", "burgundy", "maroon", "darkPurple"].includes(n))) return true;
+      if (keeper.shirtName === "lightGrey" && otherNames.some(n => ["white", "grey", "lightGrey", "sky", "paleBlue"].includes(n))) return true;
+
+      return others.filter(Boolean).some(other => fullKitRisk(keeper, other));
+    }
+
+    function findSafeKeeperKit(...others) {
+      const candidates = keeperBaseKits.filter(k => !isKeeperRisk(k, ...others));
+      return candidates.length ? pick(candidates) : findSafeKit(...others);
+    }
+
+    function isRefereeRisk(ref, ...others) {
+      const otherNames = others.filter(Boolean).map(k => k.shirtName);
+
+      if (ref.shirtName === "black" && otherNames.some(n => ["black", "navy", "darkPurple", "darkGrey"].includes(n))) return true;
+      if (ref.shirtName === "yellow" && otherNames.some(n => ["yellow", "lime", "lightGreen", "orange"].includes(n))) return true;
+      if (ref.shirtName === "pink" && otherNames.some(n => ["pink", "red", "maroon", "burgundy", "purple", "darkPurple"].includes(n))) return true;
+      if (ref.shirtName === "white" && otherNames.some(n => ["white", "cream", "lightGrey", "grey", "sky", "paleBlue", "palePink", "yellow"].includes(n))) return true;
+      if (ref.shirtName === "blue" && otherNames.some(n => ["blue", "purple", "darkPurple", "navy", "sky", "paleBlue"].includes(n))) return true;
+
+      return others.filter(Boolean).some(other => fullKitRisk(ref, other));
+    }
+
+    function findSafeRefereeKit(...others) {
+      const candidates = refereeBaseKits.filter(r => !isRefereeRisk(r, ...others));
+      return candidates.length ? pick(candidates) : findSafeKit(...others);
+    }
+
+    function makeRoleKit(label, wantRisk, home, away) {
+      if (!wantRisk) {
+        if (label.includes("GK")) return findSafeKeeperKit(home, away);
+        if (label === "Referee") return findSafeRefereeKit(home, away);
+        return findSafeKit(home, away);
+      }
+
+      if (label === "Home GK") {
+        return pick([
+          findRiskKit(away, "dangerPair"),
+          makePlainRoleKit("green", "black", "green"),
+          makePlainRoleKit("orange", "black", "orange"),
+          makePlainRoleKit("purple", "black", "purple")
+        ]);
+      }
+
+      if (label === "Away GK") {
+        return pick([
+          findRiskKit(home, "dangerPair"),
+          makePlainRoleKit("green", "black", "green"),
+          makePlainRoleKit("orange", "black", "orange"),
+          makePlainRoleKit("navy", "black", "navy")
+        ]);
+      }
+
+      if (label === "Referee") {
+        return pick([
+          home,
+          away,
+          makePlainRoleKit("black", "black", "black"),
+          makePlainRoleKit("yellow", "black", "black"),
+          findRiskKit(home, "dangerPair"),
+          findRiskKit(away, "tone")
+        ]);
+      }
+
+      return findRiskKit(home, "dangerPair");
+    }
+
+    function roleRiskText(label) {
+      if (label === "Home GK") return "The home goalkeeper shirt is too close to the away team, the referee or the grass background.";
+      if (label === "Away GK") return "The away goalkeeper shirt is too close to the home team, the referee or the grass background.";
+      return "The referee shirt is too close to a team or goalkeeper.";
     }
 
     function makeScenario() {
-      const home = pick(kitBank);
-      const wantRisk = Math.random() < (level < 3 ? 0.62 : 0.55);
-      const extrasOn = level >= 6 && Math.random() < 0.45;
+      const wantRisk = Math.random() < (level < 3 ? 0.62 : 0.56);
+      const home = wantRisk ? pick(kitBank) : pick(safeKitChoices);
 
       if (!wantRisk) {
         const away = findSafeKit(home);
-        const extraItems = extrasOn && Math.random() < 0.5
-          ? [{ label: "Referee", name: "Clear colour", kit: findSafeKit(away) }]
-          : [];
+        const ref = findSafeRefereeKit(home, away);
+        const homeGk = findSafeKeeperKit(home, away, ref);
+        const awayGk = findSafeKeeperKit(home, away, ref, homeGk);
 
         return {
           answer: "safe",
-          title: "Fixture check",
           home,
           away,
-          extras: extraItems,
-          reason: "The full kits are clearly separated by shirt, shorts and socks."
+          homeGk,
+          awayGk,
+          ref,
+          reason: "Safe call: strong contrast, clear teams, clear goalkeepers and clear referee."
         };
       }
 
       const riskTypes = level < 3
-        ? ["sameShirt", "redGreenBluePurple"]
+        ? ["outfieldSame", "outfieldFamily", "stripe"]
         : level < 6
-          ? ["sameShirt", "redGreenBluePurple", "lightDark", "shortsSocks"]
-          : ["sameShirt", "redGreenBluePurple", "lightDark", "shortsSocks", "keeper", "referee"];
+          ? ["outfieldSame", "outfieldFamily", "tone", "shortsSocks", "stripe"]
+          : ["outfieldSame", "outfieldFamily", "tone", "shortsSocks", "stripe", "homeGk", "awayGk", "referee"];
 
       const type = pick(riskTypes);
-      let away = findRiskKit(home, type);
-      let extraItems = [];
-      let reason = "The kits are too visually close. This is a colour-blind kit clash risk.";
 
-      if (type === "sameShirt") {
-        reason = "The shirt colour is too similar. Players may not separate the teams quickly.";
-      } else if (type === "redGreenBluePurple") {
-        reason = "These shirt colours sit in a common confusion area. Coaches should treat this as a clash risk.";
-      } else if (type === "lightDark") {
-        reason = "The kits have a similar light/dark tone. At speed or distance, they can blend together.";
+      let away = findSafeKit(home);
+      let ref = findSafeRefereeKit(home, away);
+      let homeGk = findSafeKeeperKit(home, away, ref);
+      let awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+      let reason = "The kits fail the quick glance test. This is a kit clash risk.";
+
+      if (type === "outfieldSame") {
+        away = findRiskKit(home, "sameShirt");
+        ref = findSafeRefereeKit(home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = "Both teams are dominated by the same main shirt colour. Stripes do not make this safe.";
+      } else if (type === "outfieldFamily") {
+        away = findRiskKit(home, "dangerPair");
+        ref = findSafeRefereeKit(home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = "This is one of the danger clash pairs. The main shirt colours are not safe at a quick glance.";
+      } else if (type === "tone") {
+        away = findRiskKit(home, "tone");
+        ref = findSafeRefereeKit(home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = "Dark-vs-dark or light-vs-light can fail under floodlights, shade or bright sun.";
       } else if (type === "shortsSocks") {
-        reason = "Shorts or socks are too similar. Lower-body cues matter when players are moving.";
-      } else if (type === "keeper") {
+        away = findRiskKit(home, "shortsSocks");
+        ref = findSafeRefereeKit(home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = "The shirts are not clear enough, and the lower-body cues add more confusion.";
+      } else if (type === "stripe") {
+        away = findRiskKit(home, "stripe");
+        ref = findSafeRefereeKit(home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = "The stripes or details create a colour-blind clash. Details are too slow to rely on.";
+      } else if (type === "homeGk") {
         away = findSafeKit(home);
-        extraItems = [{ label: "Goalkeeper", name: "Kit too close", kit: away }];
-        reason = "The goalkeeper kit is too close to the outfield team. That can cause wrong passes.";
+        ref = findSafeRefereeKit(home, away);
+        homeGk = makeRoleKit("Home GK", true, home, away);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = roleRiskText("Home GK");
+      } else if (type === "awayGk") {
+        away = findSafeKit(home);
+        ref = findSafeRefereeKit(home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = makeRoleKit("Away GK", true, home, away);
+        reason = roleRiskText("Away GK");
       } else if (type === "referee") {
         away = findSafeKit(home);
-        extraItems = [{ label: "Referee", name: "Blends in", kit: home }];
-        reason = "The referee kit is too close to one team. Officials should not blend into play.";
+        ref = makeRoleKit("Referee", true, home, away);
+        homeGk = findSafeKeeperKit(home, away, ref);
+        awayGk = findSafeKeeperKit(home, away, ref, homeGk);
+        reason = roleRiskText("Referee");
       }
 
       return {
         answer: "risk",
-        title: type === "keeper" ? "Goalkeeper colour risk" : type === "referee" ? "Referee colour risk" : "Kit clash check",
         home,
         away,
-        extras: extraItems,
+        homeGk,
+        awayGk,
+        ref,
         reason
       };
+    }
+
+    function colourLabel(name) {
+      const labels = {
+        red: "red",
+        green: "green",
+        blue: "royal blue",
+        purple: "purple",
+        darkPurple: "dark purple",
+        yellow: "bright yellow",
+        lime: "lime",
+        lightGreen: "light green",
+        orange: "orange",
+        brown: "brown",
+        maroon: "maroon",
+        burgundy: "burgundy",
+        darkRed: "dark red / maroon",
+        white: "white",
+        cream: "cream",
+        grey: "grey",
+        lightGrey: "light grey",
+        darkGrey: "dark grey",
+        sky: "light blue",
+        paleBlue: "pale blue",
+        pink: "pink",
+        palePink: "pale pink",
+        black: "black",
+        navy: "navy",
+        darkGreen: "dark green",
+        olive: "olive green",
+        khaki: "khaki",
+        teal: "teal"
+      };
+
+      return labels[name] || String(name || "").replace(/([A-Z])/g, " $1").toLowerCase();
+    }
+
+    function kitSummary(label, kit) {
+      if (!kit) return label + ": not shown";
+      return label + ": " +
+        colourLabel(kit.shirtName) + " shirt, " +
+        colourLabel(kit.shortName) + " shorts, " +
+        colourLabel(kit.sockName) + " socks";
+    }
+
+    function exactColourReport() {
+      if (!currentScenario) return "";
+
+      return [
+        kitSummary("Home team", currentScenario.home),
+        kitSummary("Away team", currentScenario.away),
+        kitSummary("Home goalkeeper", currentScenario.homeGk),
+        kitSummary("Away goalkeeper", currentScenario.awayGk),
+        kitSummary("Referee", currentScenario.ref)
+      ].join(". ") + ".";
+    }
+
+    function conditionExplanation() {
+      if (!currentScenario) return "";
+
+      const h = currentScenario.home;
+      const a = currentScenario.away;
+
+      const bothDark = environmentRisk(h, a) && ["black","navy","darkPurple","darkGreen","darkRed","maroon","darkGrey"].includes(h.shirtName);
+      const bothLight = environmentRisk(h, a) && ["white","lightGrey","grey","paleBlue","palePink","cream","yellow","sky"].includes(h.shirtName);
+
+      if (currentAnswer === "risk") {
+        if (dominantShirtRisk(h, a)) {
+          return "This can look safe close up because shorts, socks, stripes or numbers are different, but football decisions happen at speed. The dominant shirt colours are the first thing players notice, and these shirts are too close for a reliable quick glance.";
+        }
+
+        if (bothDark) {
+          return "This can look safe on a bright screen, but on game day dark kits can merge under floodlights, shade, rain, distance or movement. If the player needs extra time to separate them, it is a clash risk.";
+        }
+
+        if (bothLight) {
+          return "This can look safe on a screen, but light kits can wash out in bright sun, pale lighting or distance. If the contrast is weak in grey scale, it is a clash risk.";
+        }
+
+        return "This may look safe when standing still, but match speed changes the problem. Players scan quickly while running, under pressure and from distance. If they must study details, the kit has failed the glance test.";
+      }
+
+      return "This is safe because the dominant shirts have strong contrast, and the goalkeepers and referee are separated from both teams.";
+    }
+
+    function wrongExplanation(answer) {
+      const chosenText = answer === "safe" ? "SAFE KIT" : "KIT CLASH RISK";
+      const correctText = currentAnswer === "safe" ? "SAFE KIT" : "KIT CLASH RISK";
+
+      return "❌ WRONG — You chose " + chosenText + ". Correct answer: " + correctText + ". -10 points. " +
+        exactColourReport() + " Why you are wrong: " + currentReason + " " + conditionExplanation();
+    }
+
+    function correctExplanation(pointsWon) {
+      const helpText = greyHelpUsed
+        ? " You used grey scale help, so you win +" + pointsWon + " points instead of +10."
+        : " +" + pointsWon + " points.";
+
+      return "✅ CORRECT — " + currentReason + helpText + " " + exactColourReport() + " " + conditionExplanation();
     }
 
     function updateStats() {
@@ -1175,14 +1808,15 @@
     function updateBest() {
       if (score > best) {
         best = score;
-        localStorage.setItem("coachKitClashBest100", String(best));
+        localStorage.setItem("coachKitClashBestV3", String(best));
       }
     }
 
-    function setFeedback(text, type = "") {
+    function setFeedback(text, type = "", explain = false) {
       feedbackEl.textContent = text;
       feedbackEl.className = "feedback";
       if (type) feedbackEl.classList.add(type);
+      if (explain) feedbackEl.classList.add("explain");
     }
 
     function showPop(text, type) {
@@ -1197,25 +1831,30 @@
       safeBtn.classList.remove("button-correct", "button-wrong");
       riskBtn.classList.remove("button-correct", "button-wrong");
       pitchEl.classList.remove("correct-screen", "wrong-screen");
+      scenarioEl.classList.remove("grey-mode");
+      greyHelpBtn.classList.remove("used");
+      greyHelpBtn.textContent = "◐ Grey Scale Help";
+      greyHelpUsed = false;
       safeBtn.disabled = false;
       riskBtn.disabled = false;
+      greyHelpBtn.disabled = false;
     }
 
     function kitPatternSvg(kit) {
       if (kit.pattern === "plain") return "";
       if (kit.pattern === "centre") {
-        return `<rect x="53" y="35" width="14" height="67" rx="5" fill="${kit.stripe}" opacity=".92"/>`;
+        return `<rect x="53" y="35" width="14" height="67" rx="5" fill="${kit.stripe}" opacity=".72"/>`;
       }
       if (kit.pattern === "double") {
-        return `<rect x="44" y="35" width="9" height="66" rx="4" fill="${kit.stripe}" opacity=".92"/>
-                <rect x="67" y="35" width="9" height="66" rx="4" fill="${kit.stripe}" opacity=".92"/>`;
+        return `<rect x="44" y="35" width="9" height="66" rx="4" fill="${kit.stripe}" opacity=".72"/>
+                <rect x="67" y="35" width="9" height="66" rx="4" fill="${kit.stripe}" opacity=".72"/>`;
       }
       if (kit.pattern === "hoop") {
-        return `<rect x="31" y="54" width="58" height="13" rx="4" fill="${kit.stripe}" opacity=".92"/>
-                <rect x="30" y="81" width="60" height="13" rx="4" fill="${kit.stripe}" opacity=".92"/>`;
+        return `<rect x="31" y="54" width="58" height="13" rx="4" fill="${kit.stripe}" opacity=".72"/>
+                <rect x="30" y="81" width="60" height="13" rx="4" fill="${kit.stripe}" opacity=".72"/>`;
       }
       if (kit.pattern === "sash") {
-        return `<polygon points="35,35 48,35 89,94 89,105 77,105 31,42" fill="${kit.stripe}" opacity=".92"/>`;
+        return `<polygon points="35,35 48,35 89,94 89,105 77,105 31,42" fill="${kit.stripe}" opacity=".72"/>`;
       }
       return "";
     }
@@ -1228,7 +1867,7 @@
           <path d="M35 33 L48 25 L60 37 L72 25 L85 33 L91 100 Q60 111 29 100 Z" fill="${kit.shirt}" stroke="#101828" stroke-width="4" stroke-linejoin="round"/>
           ${kitPatternSvg(kit)}
           <path d="M47 27 Q60 42 73 27 L68 27 Q60 34 52 27 Z" fill="#f8fafc" stroke="#101828" stroke-width="2"/>
-          <text x="60" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="33" font-weight="900" fill="#ffffff" stroke="#101828" stroke-width="6" paint-order="stroke">${number}</text>
+          <text x="60" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="${number ? 33 : 0}" font-weight="900" fill="#ffffff" stroke="#101828" stroke-width="6" paint-order="stroke">${number}</text>
           <rect x="35" y="100" width="50" height="20" rx="4" fill="${kit.shorts}" stroke="#101828" stroke-width="4"/>
           <rect x="40" y="119" width="12" height="22" rx="4" fill="${kit.socks}" stroke="#101828" stroke-width="3"/>
           <rect x="68" y="119" width="12" height="22" rx="4" fill="${kit.socks}" stroke="#101828" stroke-width="3"/>
@@ -1241,16 +1880,9 @@
     }
 
     function renderExtras(items) {
-      if (!items || !items.length) {
-        extras.innerHTML = "";
-        extras.classList.add("hidden");
-        return;
-      }
-
-      extras.classList.remove("hidden");
       extras.innerHTML = items.map(item => `
         <div class="extra-card">
-          ${kitSvg(item.kit, "")}
+          ${kitSvg(item.kit, item.number || "")}
           <div>
             <div class="extra-label">${item.label}</div>
             <div class="extra-name">${item.name}</div>
@@ -1264,22 +1896,27 @@
       locked = false;
 
       const scenario = makeScenario();
+      currentScenario = scenario;
 
       currentAnswer = scenario.answer;
       currentReason = scenario.reason;
 
-      matchTitle.textContent = scenario.title + " · 100-kit bank";
       missionEl.textContent = level < 5
-        ? "Would this kit match be clear for every player?"
-        : "Check the full match picture before kick-off.";
+        ? "Glance test: can you separate the shirts instantly?"
+        : "Glance test: teams, goalkeepers and referee.";
 
       coachText.textContent = level < 5
-        ? "Look at the whole kit, not just the shirt colour."
-        : "Now include goalkeeper, referee, distance and lighting in your decision.";
+        ? "Best rule: one team light, one team dark. Avoid danger pairs."
+        : "Check teams, goalkeepers and referee. Strong contrast should be obvious.";
 
       renderTeam(homePlayers, scenario.home, ["7", "8", "10"]);
       renderTeam(awayPlayers, scenario.away, ["4", "9", "11"]);
-      renderExtras(scenario.extras || []);
+
+      renderExtras([
+        { label: "Home GK", name: "Goalkeeper", kit: scenario.homeGk, number: "1" },
+        { label: "Away GK", name: "Goalkeeper", kit: scenario.awayGk, number: "1" },
+        { label: "Referee", name: "Official", kit: scenario.ref, number: "" }
+      ]);
 
       updateStats();
     }
@@ -1295,7 +1932,8 @@
       const correctBtn = currentAnswer === "safe" ? safeBtn : riskBtn;
 
       if (answer === currentAnswer) {
-        score += 10 + Math.min(streak, 10);
+        const pointsWon = greyHelpUsed ? 5 : 10;
+        score += pointsWon;
         streak += 1;
         level += 1;
         updateBest();
@@ -1303,12 +1941,14 @@
 
         selectedBtn.classList.add("button-correct");
         pitchEl.classList.add("correct-screen");
-        setFeedback("✅ CORRECT — " + currentReason, "good");
-        showPop("✅ Correct", "good");
+        greyHelpBtn.disabled = true;
+        setFeedback(correctExplanation(pointsWon), "good", true);
+        showPop(greyHelpUsed ? "✅ +5" : "✅ +10", "good");
 
-        setTimeout(makeRound, 1350);
+        setTimeout(makeRound, 4200);
       } else {
         lives -= 1;
+        score -= 10;
         streak = 0;
         updateBest();
         updateStats();
@@ -1316,15 +1956,15 @@
         selectedBtn.classList.add("button-wrong");
         correctBtn.classList.add("button-correct");
         pitchEl.classList.add("wrong-screen");
+        greyHelpBtn.disabled = true;
 
-        const correctText = currentAnswer === "safe" ? "SAFE KIT" : "KIT CLASH RISK";
-        setFeedback("❌ WRONG — Correct answer: " + correctText + ". " + currentReason, "bad");
-        showPop("❌ Wrong", "bad");
+        setFeedback(wrongExplanation(answer), "bad", true);
+        showPop("❌ -10", "bad");
 
         if (lives <= 0) {
-          setTimeout(endGame, 1550);
+          setTimeout(endGame, 5200);
         } else {
-          setTimeout(makeRound, 1550);
+          setTimeout(makeRound, 5200);
         }
       }
     }
@@ -1341,7 +1981,7 @@
       pauseOverlay.classList.add("hidden");
       gameOverOverlay.classList.add("hidden");
 
-      setFeedback("Decide if the kits are safe or a clash risk.");
+      setFeedback("Safe = light vs dark. Risk = danger pair or detail-only decision.");
       makeRound();
     }
 
@@ -1356,7 +1996,7 @@
       if (gameOverOverlay.classList.contains("hidden")) {
         running = true;
         pauseOverlay.classList.add("hidden");
-        setFeedback("Decide if the kits are safe or a clash risk.");
+        setFeedback("Safe = light vs dark. Risk = danger pair or detail-only decision.");
       }
     }
 
@@ -1376,12 +2016,40 @@
     $("pauseBtn").addEventListener("click", pauseGame);
     $("resumeBtn").addEventListener("click", resumeGame);
 
+    function openLearn() {
+      learnOverlay.classList.remove("hidden");
+    }
+
+    function closeLearn() {
+      learnOverlay.classList.add("hidden");
+    }
+
+    $("learnBtn").addEventListener("click", openLearn);
+    $("startLearnBtn").addEventListener("click", openLearn);
+    $("pauseLearnBtn").addEventListener("click", openLearn);
+    $("gameOverLearnBtn").addEventListener("click", openLearn);
+    $("closeLearnBtn").addEventListener("click", closeLearn);
+
+    function toggleGreyHelp() {
+      if (!running || locked) return;
+      greyHelpUsed = true;
+      scenarioEl.classList.toggle("grey-mode");
+      greyHelpBtn.classList.add("used");
+      greyHelpBtn.textContent = scenarioEl.classList.contains("grey-mode")
+        ? "◐ Grey Scale On (+5 max)"
+        : "◐ Grey Scale Help Used (+5 max)";
+      setFeedback("Grey scale help used. If you are correct, you now win +5 points instead of +10. Use it to judge contrast, not colour names.", "", false);
+    }
+
+    greyHelpBtn.addEventListener("click", toggleGreyHelp);
+
     safeBtn.addEventListener("click", () => choose("safe"));
     riskBtn.addEventListener("click", () => choose("risk"));
 
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
-        if (running) pauseGame();
+        if (!learnOverlay.classList.contains("hidden")) closeLearn();
+        else if (running) pauseGame();
         else if (!pauseOverlay.classList.contains("hidden")) resumeGame();
       }
 
@@ -1391,11 +2059,15 @@
 
     kitBank = buildKitBank();
 
-    const previewHome = kitBank[0];
-    const previewAway = findRiskKit(previewHome, "redGreenBluePurple");
+    const previewHome = safeKitChoices[0];
+    const previewAway = findSafeKit(previewHome);
     renderTeam(homePlayers, previewHome, ["7", "8", "10"]);
     renderTeam(awayPlayers, previewAway, ["4", "9", "11"]);
-    renderExtras([]);
+    renderExtras([
+      { label: "Home GK", name: "Goalkeeper", kit: findSafeKit(previewHome, previewAway), number: "1" },
+      { label: "Away GK", name: "Goalkeeper", kit: findSafeKit(previewHome, previewAway), number: "1" },
+      { label: "Referee", name: "Official", kit: refereeBaseKits[1], number: "" }
+    ]);
     updateStats();
   </script>
 </body>
