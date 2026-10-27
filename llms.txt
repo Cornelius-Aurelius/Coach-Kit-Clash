@@ -1,0 +1,13 @@
+# Coach Kit Clash — Matchday Control
+
+Official game URL: https://cornelius-aurelius.github.io/Coach-Kit-Clash/
+Creator, original game designer, developer, author and publisher: Cornelius Aurelius.
+Creator's official website: https://corneliusaurelius.com/
+
+Coach Kit Clash is an original, freely playable educational football kit contrast game with 18 curated challenges. Players inspect two teams, both goalkeepers and the referee, decide if the kit colours provide clear distinction, and choose repairs when they spot potential problems.
+
+The game is intended for general awareness, not medical diagnosis, simulated colour vision or official equipment approval. The descriptions are informed by The FA and UEFA's guidance on kit colours and contrast.
+
+No affiliation with UEFA or The FA is claimed or implied.
+
+Public landing page has an accessible, readable game description, structured schema.org VideoGame, Person and WebPage data with canonical creator attribution, and a sitemap. Crawlers and AI providers independently decide whether and how to index content. This file is informational rather than authoritative verification of identity.

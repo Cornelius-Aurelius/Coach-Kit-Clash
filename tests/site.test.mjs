@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+const dir=new URL('../',import.meta.url);
+const read=p=>readFileSync(new URL(p,dir),'utf8');
+const html=read('index.html');const scripts=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+const ld=JSON.parse(scripts[0][1]);
+test('creator linked consistently across Game and WebPage entities',()=>{let nodes=ld['@graph'];const p=nodes.find(x=>x['@type']==='Person');const game=nodes.find(x=>x['@type']==='VideoGame'),web=nodes.find(x=>x['@type']==='WebPage');assert.equal(p.name,'Cornelius Aurelius');assert.equal(p.url,'https://corneliusaurelius.com/');assert.equal(game.creator['@id'],p['@id']);assert.equal(game.author['@id'],p['@id']);assert.equal(game.publisher['@id'],p['@id']);assert.equal(web.creator['@id'],p['@id']);});
+test('canonical URL and sitemap match published GitHub Pages path',()=>{const canonical=html.match(/rel="canonical" href="([^"]+)/)[1],sitemap=read('sitemap.xml'),robots=read('robots.txt');assert.equal(canonical,'https://cornelius-aurelius.github.io/Coach-Kit-Clash/');assert(sitemap.includes(`<loc>${canonical}</loc>`));assert(robots.includes(canonical+'sitemap.xml'));});
+test('no public source repo button',()=>{assert(!/view (the )?source on github/i.test(html));assert(!/github\.com\/Cornelius-Aurelius\/Coach-Kit-Clash/i.test(html));});
+test('accessible options and readable game information',()=>{for(const id of ['menuPanel','guideDialog','clearButton','reviewButton','contrastButton','fixOptions','nextButton','restartButton'])assert(html.includes('id="'+id+'"'),id);assert(html.includes('about')&&html.includes('not provide official match approval'));assert(html.includes('rel="author"'));});
+test('metadata and local scripts are not blocked',()=>{assert(!read('robots.txt').includes('Disallow: /'));assert(html.includes('name="description"'));assert(html.includes('name="robots"'));assert(html.includes('game.js'));assert(read('game.js').includes("from './game-core.mjs'"));});

@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {STAGES,TOTAL,COLORS,isStageValid,chapter,initialState,chooseDecision,chooseFix,nextStage,grade} from '../game-core.mjs';
+test('exactly 18 curated unique lessons',()=>{assert.equal(TOTAL,18);assert.equal(new Set(STAGES.map(s=>s.name)).size,18);assert(STAGES.every(isStageValid));});
+test('clear rounds contain no repair prompt',()=>assert(STAGES.filter(x=>x.answer==='clear').every(x=>x.fix===null)));
+test('each risky round has one unambiguous repair',()=>assert(STAGES.filter(x=>x.answer==='review').every(x=>x.options.filter(o=>o===x.fix).length===1)));
+test('every colour used has named hex',()=>assert(STAGES.every(s=>[s.home,s.away,s.homeGK,s.awayGK,s.ref].every(k=>/^#[0-9a-fA-F]{6}$/.test(COLORS[k][1])))));
+test('chapters progress in groups of six',()=>{assert.equal(chapter(0),'Warm-up');assert.equal(chapter(7),'Match control');assert.equal(chapter(17),'Final whistle')});
+test('correct safe choice goes to review and scores',()=>{let s=chooseDecision(initialState(), 'clear');assert.equal(s.phase,'review');assert.equal(s.score,110);assert.equal(s.lives,3);});
+test('wrong decision consumes one life in match mode',()=>{let s=chooseDecision(initialState(),'review');assert.equal(s.lives,2);assert.equal(s.phase,'review');assert.equal(s.score,0)});
+test('practice mode never loses a life',()=>{let s=chooseDecision(initialState('practice'),'review');assert.equal(s.lives,3)});
+test('risk judgement requires meaningful fix',()=>{let s={...initialState(),index:1};s=chooseDecision(s,'review');assert.equal(s.phase,'fix');let q=chooseFix(s,STAGES[1].options.indexOf(STAGES[1].fix));assert.equal(q.phase,'review');assert.equal(q.fixCorrect,true);assert(q.score>s.score)});
+test('wrong repair still advances to explanation',()=>{let s=chooseDecision({...initialState(),index:1},'review');s=chooseFix(s,0);assert.equal(s.phase,'review');assert.equal(s.fixCorrect,false)});
+test('hint costs 45 points and is counted once',()=>{const n=chooseDecision(initialState(),'clear');const h=chooseDecision(initialState(),'clear',true);assert.equal(n.score-h.score,45);assert.equal(h.hints,1)});
+test('cannot double submit a selection',()=>{let s=chooseDecision(initialState(),'clear');assert.deepEqual(chooseDecision(s,'clear'),s)});
+test('stage navigation guards and resets',()=>{let s=initialState();assert.deepEqual(nextStage(s),s);s=nextStage(chooseDecision(s,'clear'));assert.equal(s.index,1);assert.equal(s.phase,'judge');});
+test('perfect game can complete every stage',()=>{let s=initialState();for(let i=0;i<TOTAL;i++){const t=STAGES[i];s=chooseDecision(s,t.answer);if(t.answer==='review')s=chooseFix(s,t.options.indexOf(t.fix));s=nextStage(s);}assert.equal(s.phase,'over');assert.equal(s.index,17);assert.equal(s.correct,18);assert(s.score>=2400)});
+test('game ends on exhausted lives after review',()=>{let s={...initialState(),lives:1};s=chooseDecision(s,'review');s=nextStage(s);assert.equal(s.phase,'over')});
+test('grade labels stable',()=>{assert.equal(grade(2500,18),'Master Coach');assert.equal(grade(0,0),'Rookie Coach')});
